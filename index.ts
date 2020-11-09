@@ -1,5 +1,8 @@
 import fastify, { FastifyInstance } from 'fastify';
+import dbConnection from './utils/database/config';
 require('./env/config');
+
+dbConnection();
 
 const server: FastifyInstance = fastify();
 

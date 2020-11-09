@@ -1,13 +1,10 @@
-import { FastifyInstance, RouteOptions, RouteShorthandOptions } from 'fastify';
-import { userOpts } from './options/userOptions';
+import { FastifyInstance } from 'fastify';
+import { userRegisterOpts } from './options/userOptions';
+import { UserController } from '../controller/userController';
+const userController = UserController.Instance;
 
-const routes = async (fastify: FastifyInstance, options: RouteOptions) => {
-  //   fastify.get('/', async (req, reply) => {
-  //     return { user: 'myuser' };
-  //   });
-  fastify.post('/', userOpts, async (req, reply) => {
-    return { user: 'myuser' };
-  });
+const routes = async (fastify: FastifyInstance) => {
+  fastify.post<any>('/', userRegisterOpts, userController.create);
 };
 
 module.exports = routes;
