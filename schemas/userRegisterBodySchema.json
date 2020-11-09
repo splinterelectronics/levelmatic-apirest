@@ -1,0 +1,11 @@
+{
+  "title": "User Register Body Schema",
+  "type": "object",
+  "properties": {
+    "username": { "type": "string" },
+    "password": { "type": "string" },
+    "email": { "type": "string" }
+  },
+  "additionalProperties": false,
+  "required": ["username", "password", "email"]
+}
