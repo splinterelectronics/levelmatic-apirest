@@ -1,6 +1,7 @@
 import fastify, { FastifyInstance } from 'fastify';
 import dbConnection from './utils/database/config';
-require('./env/config');
+
+require('./utils/env/config');
 
 dbConnection();
 

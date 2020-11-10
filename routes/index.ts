@@ -1,9 +1,9 @@
-import { FastifyInstance, RouteOptions } from 'fastify';
+import { FastifyInstance } from 'fastify';
 
-const routes = async (fastify: FastifyInstance, options: RouteOptions) => {
-  fastify.get('/', async (req, reply) => {
-    return { hello: 'world' };
-  });
+const routes = async (fastify: FastifyInstance) => {
+  // fastify.get('/', async (req, reply) => {
+  //   return { hello: 'world' };
+  // });
   fastify.register(require('./userRoutes'), { prefix: '/user' });
 };
 

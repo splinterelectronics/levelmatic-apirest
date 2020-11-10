@@ -3,7 +3,7 @@ import User from '../models/userModel';
 
 // https://hackernoon.com/how-to-link-mongoose-and-typescript-for-a-single-source-of-truth-94o3uqc
 
-export class UserService {
+export default class UserService {
   private static instance: UserService;
 
   public static get Instance(): UserService {

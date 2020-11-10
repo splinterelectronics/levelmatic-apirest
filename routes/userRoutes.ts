@@ -1,7 +1,8 @@
 import { FastifyInstance } from 'fastify';
 import { userRegisterOpts } from './options/userOptions';
-import { UserController } from '../controller/userController';
+import UserController from '../controllers/userController';
 import { IUser } from '../interfaces/userInterfaces';
+
 const userController = UserController.Instance;
 
 const routes = async (fastify: FastifyInstance) => {
