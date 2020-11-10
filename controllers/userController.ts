@@ -1,6 +1,8 @@
 import { FastifyReply } from 'fastify';
+import bcrypt from 'bcryptjs';
 import { UserRegisterRequest, IUser } from '../interfaces/userInterfaces';
 import UserService from '../services/userService';
+import serverReply from '../utils/helpers/serverReply';
 
 const service = UserService.Instance;
 
@@ -20,10 +22,14 @@ export default class UserController {
   public async create(req: UserRegisterRequest, reply: FastifyReply) {
     try {
       const { username, password, email } = req.body;
-      const user: IUser = { username, password, email };
+      const salt: string = bcrypt.genSaltSync(Number(process.env.SALT));
+      const user: IUser = {
+        username,
+        email,
+        password: bcrypt.hashSync(password, salt),
+      };
       const userDB = await service.create(user);
-      console.log(userDB);
-      return reply.send('parece que está en la bd');
+      return reply.code(serverReply.created.code).send(userDB);
     } catch (error) {
       console.log(error);
       return reply.code(500).send({ ok: false, code: 500 });

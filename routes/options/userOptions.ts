@@ -1,8 +1,14 @@
 import { RouteShorthandOptions } from 'fastify';
-import userRegisterBodySchema from '../../utils/schemas/userRegisterBodySchema.json';
+import {
+  userRegisterResponseSchema,
+  userRegisterBodySchema,
+} from '../../utils/schemas/userOptionsSchema';
 
 export const userRegisterOpts: RouteShorthandOptions = {
   schema: {
     body: userRegisterBodySchema,
+    response: userRegisterResponseSchema,
   },
 };
+
+export const userDeleteOpts = {};

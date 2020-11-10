@@ -13,11 +13,7 @@ export default class UserService {
     return UserService.instance;
   }
 
-  public async create(user: IUser) {
-    try {
-      return await new User(user).save();
-    } catch (error) {
-      return error;
-    }
+  public create(user: IUser) {
+    return new User(user).save();
   }
 }

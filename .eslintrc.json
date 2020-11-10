@@ -16,6 +16,7 @@
     "import/extensions": "off",
     "import/no-unresolved": "off",
     "global-require": "off",
-    "class-methods-use-this": "off"
+    "class-methods-use-this": "off",
+    "prettier/prettier": ["error", { "endOfLine": "auto" }]
   }
 }
