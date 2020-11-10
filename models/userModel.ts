@@ -18,5 +18,11 @@ const UserSchemaFields: Record<keyof IUser, any> = {
 };
 
 const UserSchema = new Schema(UserSchemaFields);
+
+UserSchema.methods.toJSON = function dataToReturn() {
+  const { password, __v, ...user } = this.toObject();
+  return user;
+};
+
 const User = model<IUserDoc>('User', UserSchema);
 export default User;

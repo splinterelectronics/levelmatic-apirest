@@ -11,8 +11,10 @@ export interface IMeasure {
   dateMeasure: Date;
 }
 
+export type MeasureReadQuery = { idESP: string; range: string };
+
 export type MeasureReadRequest = FastifyRequest<{
-  Querystring: { idESP: string };
+  Querystring: MeasureReadQuery;
 }>;
 
 export interface IMeasureDoc extends Document, IMeasure {}

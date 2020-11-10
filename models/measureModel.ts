@@ -19,5 +19,11 @@ const MeasureSchemaFields: Record<keyof IMeasure, any> = {
 };
 
 const MeasureSchema = new Schema(MeasureSchemaFields);
+
+MeasureSchema.methods.toJSON = function dataToReturn() {
+  const { _id, idESP, __v, ...measure } = this.toObject();
+  return measure;
+};
+
 const Measure = model<IMeasureDoc>('Measure', MeasureSchema);
 export default Measure;

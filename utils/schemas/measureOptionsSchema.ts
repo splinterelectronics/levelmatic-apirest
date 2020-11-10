@@ -1,4 +1,4 @@
-const measureReadBodySchema = {
+export const measureReadBodySchema = {
   title: 'Measure Read Body Schema',
   type: 'object',
   properties: {
@@ -9,4 +9,16 @@ const measureReadBodySchema = {
   minProperties: 1,
 };
 
-export default measureReadBodySchema;
+export const measureReadResponseSchema = {
+  200: {
+    type: 'array',
+    items: {
+      type: 'object',
+      properties: {
+        liquidLevel: { type: 'number' },
+        batteryLevel: { type: 'number' },
+        dateMeasure: { type: 'string', format: 'date-time' },
+      },
+    },
+  },
+};

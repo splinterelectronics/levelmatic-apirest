@@ -1,9 +1,13 @@
 import { RouteShorthandOptions } from 'fastify';
-import measureReadBodySchema from '../../utils/schemas/measureOptionsSchema';
+import {
+  measureReadResponseSchema,
+  measureReadBodySchema,
+} from '../../utils/schemas/measureOptionsSchema';
 
 export const measureReadOpts: RouteShorthandOptions = {
   schema: {
     querystring: measureReadBodySchema,
+    response: measureReadResponseSchema,
   },
 };
 
