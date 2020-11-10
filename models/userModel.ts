@@ -1,7 +1,6 @@
 import { model, Schema } from 'mongoose';
 import { IUserDoc, IUser } from '../interfaces/userInterfaces';
 
-// Se coloca keyof IUser para que el Schema de mongoose sepa las propiedades que debe contener
 const UserSchemaFields: Record<keyof IUser, any> = {
   username: {
     type: String,
