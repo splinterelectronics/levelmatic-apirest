@@ -9,6 +9,6 @@ export interface IUser {
 
 export interface IUserDoc extends Document, IUser {}
 
-export type UserRegisterBodyRequest = FastifyRequest<{
+export type UserRegisterRequest = FastifyRequest<{
   Body: IUser;
 }>;

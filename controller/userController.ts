@@ -1,5 +1,5 @@
 import { FastifyReply } from 'fastify';
-import { UserRegisterBodyRequest, IUser } from '../interfaces/userInterfaces';
+import { UserRegisterRequest, IUser } from '../interfaces/userInterfaces';
 import { UserService } from '../services/userService';
 const service = UserService.Instance;
 
@@ -16,7 +16,7 @@ export class UserController {
   /**
    * create
    */
-  public async create(req: UserRegisterBodyRequest, reply: FastifyReply) {
+  public async create(req: UserRegisterRequest, reply: FastifyReply) {
     try {
       const { username, password, email } = req.body;
       const user: IUser = { username, password, email };
