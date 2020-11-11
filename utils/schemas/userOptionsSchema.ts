@@ -30,7 +30,26 @@ export const userLoginResponseSchema = {
       _id: { type: 'string' },
       username: { type: 'string' },
       email: { type: 'string' },
-      devices: { type: 'array' },
+      devices: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            _id: { type: 'string' },
+            name: { type: 'string' },
+            owner: { type: 'string' },
+            rxConnection: { type: 'string', format: 'date-time' },
+            lastMeasure: {
+              type: 'object',
+              properties: {
+                liquidLevel: { type: 'number' },
+                batteryLevel: { type: 'number' },
+                dateMeasure: { type: 'string', format: 'date-time' },
+              },
+            },
+          },
+        },
+      },
     },
   },
 };

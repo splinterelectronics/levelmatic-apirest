@@ -3,6 +3,7 @@ import {
   userRegisterResponseSchema,
   userRegisterBodySchema,
   userLoginBodySchema,
+  userLoginResponseSchema,
 } from '../../utils/schemas/userOptionsSchema';
 
 export const userRegisterOpts: RouteShorthandOptions = {
@@ -15,5 +16,6 @@ export const userRegisterOpts: RouteShorthandOptions = {
 export const userLoginOpts: RouteShorthandOptions = {
   schema: {
     body: userLoginBodySchema,
+    response: userLoginResponseSchema,
   },
 };
