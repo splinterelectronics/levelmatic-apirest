@@ -11,7 +11,7 @@ const EspSchemaFields: Record<keyof IESP, any> = {
     ref: 'Measure',
   },
   name: String,
-  rx: Date,
+  rxConnection: Date,
 };
 
 const EspSchema = new Schema(EspSchemaFields);

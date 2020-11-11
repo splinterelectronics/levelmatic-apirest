@@ -6,7 +6,7 @@ export interface IESP {
   owner: ID | IUserDoc;
   lastMeasure: ID | IMeasureDoc;
   name: string;
-  rx: Date;
+  rxConnection: Date;
 }
 
 export interface IESPDoc extends Document, IESP {}
