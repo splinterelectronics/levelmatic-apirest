@@ -2,6 +2,7 @@ import { RouteShorthandOptions } from 'fastify';
 import {
   userRegisterResponseSchema,
   userRegisterBodySchema,
+  userLoginBodySchema,
 } from '../../utils/schemas/userOptionsSchema';
 
 export const userRegisterOpts: RouteShorthandOptions = {
@@ -11,4 +12,8 @@ export const userRegisterOpts: RouteShorthandOptions = {
   },
 };
 
-export const userDeleteOpts = {};
+export const userLoginOpts: RouteShorthandOptions = {
+  schema: {
+    body: userLoginBodySchema,
+  },
+};

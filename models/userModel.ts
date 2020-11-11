@@ -15,6 +15,12 @@ const UserSchemaFields: Record<keyof IUser, any> = {
     type: String,
     required: true,
   },
+  devices: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Esp',
+    },
+  ],
 };
 
 const UserSchema = new Schema(UserSchemaFields);
