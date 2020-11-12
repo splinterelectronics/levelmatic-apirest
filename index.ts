@@ -7,6 +7,7 @@ dbConnection();
 
 const server: FastifyInstance = fastify();
 
+server.register(require('./utils/plugins/fastifyJwt'));
 server.register(require('./routes'));
 
 server.listen(process.env.PORT, (err, address) => {

@@ -1,3 +1,6 @@
+import { ID } from '../interfaces/measureInterfaces';
+import Esp from '../models/espModel';
+
 export default class EspService {
   private static instance: EspService;
 
@@ -8,5 +11,7 @@ export default class EspService {
     return EspService.instance;
   }
 
-  public Testing() {}
+  public getById(id: ID) {
+    return Esp.findById(id);
+  }
 }

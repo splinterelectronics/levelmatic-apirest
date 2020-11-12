@@ -27,9 +27,11 @@ export const userLoginResponseSchema = {
   200: {
     type: 'object',
     properties: {
-      _id: { type: 'string' },
+      ok: { type: 'boolean' },
+      uid: { type: 'string' },
       username: { type: 'string' },
       email: { type: 'string' },
+      tokenJWT: { type: 'string' },
       devices: {
         type: 'array',
         items: {
@@ -65,4 +67,43 @@ export const userLoginBodySchema = {
   required: ['email', 'password'],
   maxProperties: 2,
   minProperties: 2,
+};
+
+export const userAddDeviceBodySchema = {
+  title: 'User Add Device Body Schema',
+  type: 'object',
+  properties: {
+    idESP: { type: 'string', minLength: 24, maxLength: 24 },
+  },
+  require: ['idESP'],
+  maxProperties: 1,
+};
+
+export const userAddDeviceResponseSchema = {
+  200: {
+    type: 'object',
+    properties: {
+      ok: { type: 'boolean' },
+      devices: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            _id: { type: 'string' },
+            name: { type: 'string' },
+            owner: { type: 'string' },
+            rxConnection: { type: 'string', format: 'date-time' },
+            lastMeasure: {
+              type: 'object',
+              properties: {
+                liquidLevel: { type: 'number' },
+                batteryLevel: { type: 'number' },
+                dateMeasure: { type: 'string', format: 'date-time' },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
 };

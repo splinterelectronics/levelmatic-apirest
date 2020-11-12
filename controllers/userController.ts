@@ -1,9 +1,11 @@
-import { FastifyReply } from 'fastify';
+/* eslint-disable no-underscore-dangle */
+import { FastifyReply, FastifyInstance } from 'fastify';
 import bcrypt from 'bcryptjs';
 import {
   UserRegisterRequest,
   IUser,
   UserLoginRequest,
+  UserAddDeviceRequest,
 } from '../interfaces/userInterfaces';
 import UserService from '../services/userService';
 import serverReply from '../utils/helpers/serverReply';
@@ -37,7 +39,11 @@ export default class UserController {
     }
   }
 
-  public async login(req: UserLoginRequest, reply: FastifyReply) {
+  public async login(
+    fastify: FastifyInstance,
+    req: UserLoginRequest,
+    reply: FastifyReply
+  ) {
     try {
       const { email, password } = req.body;
       const user = await service.login(email);
@@ -46,7 +52,36 @@ export default class UserController {
           .code(serverReply.badRequest.code)
           .send({ ok: false, message: 'credenciales incorrectas' });
       }
-      return reply.code(serverReply.success.code).send(user);
+      const payload = { uid: user._id, email: user.email };
+      const tokenJWT = fastify.jwt.sign(payload, {
+        expiresIn: '30d',
+      });
+      const { devices, _id: uid, username } = user;
+      const replyUserData = {
+        ok: true,
+        tokenJWT,
+        devices,
+        uid,
+        username,
+        email,
+      };
+      return reply.code(serverReply.success.code).send(replyUserData);
+    } catch (error) {
+      console.log(error);
+      return reply.code(500).send({ ok: false, code: 500 });
+    }
+  }
+
+  public async addEspToUser(req: UserAddDeviceRequest, reply: FastifyReply) {
+    try {
+      const { uid } = <any>req.user;
+      const { idESP } = req.body;
+      const user = await service.addEspToUser(uid, idESP);
+      const devices = user?.devices;
+      if (!devices || devices?.length === 0) {
+        return reply.send({ ok: false, code: 400 });
+      }
+      return reply.send({ ok: true, devices });
     } catch (error) {
       console.log(error);
       return reply.code(500).send({ ok: false, code: 500 });

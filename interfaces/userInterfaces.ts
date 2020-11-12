@@ -23,3 +23,7 @@ export interface IUserLogin {
 export type UserLoginRequest = FastifyRequest<{
   Body: IUserLogin;
 }>;
+
+export type UserAddDeviceRequest = FastifyRequest<{
+  Body: { idESP: ID };
+}>;

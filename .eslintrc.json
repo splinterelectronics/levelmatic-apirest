@@ -17,6 +17,7 @@
     "import/no-unresolved": "off",
     "global-require": "off",
     "class-methods-use-this": "off",
+    "func-names": "off",
     "prettier/prettier": ["error", { "endOfLine": "auto" }]
   }
 }
