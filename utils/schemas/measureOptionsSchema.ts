@@ -3,10 +3,11 @@ export const measureReadBodySchema = {
   type: 'object',
   properties: {
     idESP: { type: 'string', minLength: 24, maxLength: 24 },
+    range: { type: 'string', enum: ['1h', '6h', '1d', '7d', '1m'] },
   },
   additionalProperties: false,
-  required: ['idESP'],
-  minProperties: 1,
+  required: ['idESP', 'range'],
+  maxProperties: 2,
 };
 
 export const measureReadResponseSchema = {

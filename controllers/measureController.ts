@@ -19,8 +19,8 @@ export default class MeasureController {
    */
   public async read(req: MeasureReadRequest, reply: FastifyReply) {
     try {
-      const { idESP } = req.query;
-      const measures = await service.getByEspId(idESP);
+      const { idESP, range } = req.query;
+      const measures = await service.getByEspId(idESP, range);
       return reply.code(200).send(measures);
     } catch (error) {
       console.log(error);

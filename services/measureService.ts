@@ -1,5 +1,6 @@
 import Measure from '../models/measureModel';
 import { ID } from '../interfaces/measureInterfaces';
+import getRangeDate from '../utils/helpers/getRangeDate';
 
 export default class MeasureService {
   private static instance: MeasureService;
@@ -11,7 +12,14 @@ export default class MeasureService {
     return MeasureService.instance;
   }
 
-  public getByEspId(idESP: ID | string) {
-    return Measure.find({ idESP });
+  public getByEspId(idESP: ID | string, range: string) {
+    const { from, to } = getRangeDate(range);
+    return Measure.find({
+      idESP,
+      dateMeasure: {
+        $gte: from.toDate(),
+        $lte: to.toDate(),
+      },
+    });
   }
 }
