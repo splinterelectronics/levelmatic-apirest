@@ -10,7 +10,7 @@ const server: FastifyInstance = fastify();
 server.register(require('fastify-cors'));
 
 server.get('/', async (req, reply) => {
-  return { hello: 'world' };
+  return reply.send('<h1>Welcome to your simple server!!<h1>');
 });
 server.register(require('./utils/plugins/fastifyJwt'));
 server.register(require('./routes'));

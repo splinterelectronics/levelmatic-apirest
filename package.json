@@ -4,7 +4,7 @@
   "description": "Apirest para la app de levelmatic",
   "main": "index.js",
   "scripts": {
-    "start": "rimraf dist && tsc && node dist/index",
+    "start": "node dist/index",
     "dev": "rimraf dist && tsc && nodemon dist/index",
     "clean": "rimraf dist && tsc",
     "lint": "eslint . --ext .ts",
