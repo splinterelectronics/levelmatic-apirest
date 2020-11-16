@@ -40,7 +40,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var fastify_1 = __importDefault(require("fastify"));
-require('./utils/env/config');
+// import dbConnection from './utils/database/config';
+// require('./utils/env/config');
 // dbConnection();
 var server = fastify_1.default();
 server.register(require('fastify-cors'));
@@ -49,12 +50,13 @@ server.get('/', function (req, reply) { return __awaiter(void 0, void 0, void 0,
         return [2 /*return*/, reply.send('<h1>Welcome to your simple server!!<h1>')];
     });
 }); });
-server.register(require('./utils/plugins/fastifyJwt'));
-server.register(require('./routes'));
-var port = process.env.PORT || 8080;
+// server.register(require('./utils/plugins/fastifyJwt'));
+// server.register(require('./routes'));
+var port = process.env.PORT || 3000;
 server.listen(port, function (err, address) {
     if (err) {
         console.log(err);
     }
+    console.log('el puerto es:', port);
     console.log('Corriendo en address:', address);
 });
