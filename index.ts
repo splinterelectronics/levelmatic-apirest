@@ -1,9 +1,9 @@
 import fastify, { FastifyInstance } from 'fastify';
-// import dbConnection from './utils/database/config';
+import dbConnection from './utils/database/config';
 
-// require('./utils/env/config');
+require('./utils/env/config');
 
-// dbConnection();
+dbConnection();
 
 const server: FastifyInstance = fastify();
 
@@ -12,10 +12,9 @@ server.register(require('fastify-cors'));
 server.get('/', async (req, reply) => {
   return reply.send('<h1>Welcome to your simple server!!<h1>');
 });
-// server.register(require('./utils/plugins/fastifyJwt'));
-// server.register(require('./routes'));
+server.register(require('./utils/plugins/fastifyJwt'));
+server.register(require('./routes'));
 
-// que paso mi amigo
 const port = process.env.PORT || 3000;
 
 server.listen(port, (err, address) => {
