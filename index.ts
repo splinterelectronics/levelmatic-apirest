@@ -7,6 +7,9 @@ dbConnection();
 
 const server: FastifyInstance = fastify();
 
+server.get('/', async (req, reply) => {
+  return { hello: 'world' };
+});
 server.register(require('./utils/plugins/fastifyJwt'));
 server.register(require('./routes'));
 
