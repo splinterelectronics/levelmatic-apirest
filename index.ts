@@ -15,7 +15,9 @@ server.get('/', async (req, reply) => {
 server.register(require('./utils/plugins/fastifyJwt'));
 server.register(require('./routes'));
 
-server.listen(process.env.PORT, (err, address) => {
+const port = process.env.PORT || 8080;
+
+server.listen(port, (err, address) => {
   if (err) {
     console.log(err);
   }
