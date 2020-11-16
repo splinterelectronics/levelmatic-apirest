@@ -7,6 +7,8 @@ dbConnection();
 
 const server: FastifyInstance = fastify();
 
+server.register(require('fastify-cors'));
+
 server.get('/', async (req, reply) => {
   return { hello: 'world' };
 });
