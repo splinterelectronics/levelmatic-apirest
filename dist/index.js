@@ -40,9 +40,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var fastify_1 = __importDefault(require("fastify"));
-var config_1 = __importDefault(require("./utils/database/config"));
 require('./utils/env/config');
-config_1.default();
+// dbConnection();
 var server = fastify_1.default();
 server.register(require('fastify-cors'));
 server.get('/', function (req, reply) { return __awaiter(void 0, void 0, void 0, function () {

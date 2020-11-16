@@ -3,7 +3,7 @@ import dbConnection from './utils/database/config';
 
 require('./utils/env/config');
 
-dbConnection();
+// dbConnection();
 
 const server: FastifyInstance = fastify();
 
