@@ -13,7 +13,7 @@ export const userRegisterBodySchema = {
   title: 'User Register Body Schema',
   type: 'object',
   properties: {
-    username: { type: 'string', minLength: 6 },
+    username: { type: 'string' },
     password: { type: 'string', minLength: 6 },
     email: { type: 'string', format: 'email', minLength: 4 },
   },

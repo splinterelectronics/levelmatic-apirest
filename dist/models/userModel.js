@@ -15,7 +15,8 @@ var mongoose_1 = require("mongoose");
 var UserSchemaFields = {
     username: {
         type: String,
-        required: true,
+        required: false,
+        default: '',
     },
     email: {
         type: String,

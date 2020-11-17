@@ -17,7 +17,7 @@ server.register(require('./routes'));
 
 const port = process.env.PORT || 3000;
 
-server.listen(port, (err, address) => {
+server.listen(port, '0.0.0.0', (err, address) => {
   if (err) {
     console.log(err);
   }

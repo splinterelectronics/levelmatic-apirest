@@ -4,7 +4,8 @@ import { IUserDoc, IUser } from '../interfaces/userInterfaces';
 const UserSchemaFields: Record<keyof IUser, any> = {
   username: {
     type: String,
-    required: true,
+    required: false,
+    default: '',
   },
   email: {
     type: String,

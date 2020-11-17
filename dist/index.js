@@ -53,7 +53,7 @@ server.get('/', function (req, reply) { return __awaiter(void 0, void 0, void 0,
 server.register(require('./utils/plugins/fastifyJwt'));
 server.register(require('./routes'));
 var port = process.env.PORT || 3000;
-server.listen(port, function (err, address) {
+server.listen(port, '0.0.0.0', function (err, address) {
     if (err) {
         console.log(err);
     }
