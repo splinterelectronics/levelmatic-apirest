@@ -42,6 +42,12 @@ var UserService = /** @class */ (function () {
             schema: espModel_1.default,
         });
     };
+    UserService.prototype.update = function (uid, toUpdate) {
+        return userModel_1.default.findByIdAndUpdate(uid, toUpdate, {
+            new: true,
+            runValidators: true,
+        });
+    };
     return UserService;
 }());
 exports.default = UserService;

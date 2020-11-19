@@ -26,7 +26,7 @@ export default class EspController {
       return;
     } catch (error) {
       console.log(error);
-      return reply.send(500).send({ ok: false, message: 'Internal Error' });
+      return reply.code(500).send({ ok: false, message: 'Internal Error' });
     }
   }
 }

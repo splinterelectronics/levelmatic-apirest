@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.userAddDeviceResponseSchema = exports.userAddDeviceBodySchema = exports.userLoginBodySchema = exports.userLoginResponseSchema = exports.userRegisterBodySchema = void 0;
+exports.userAddDeviceResponseSchema = exports.userAddDeviceBodySchema = exports.userUpdatePasswordBodySchema = exports.userLoginBodySchema = exports.userLoginResponseSchema = exports.userRegisterBodySchema = void 0;
 exports.userRegisterBodySchema = {
     title: 'User Register Body Schema',
     type: 'object',
@@ -55,6 +55,18 @@ exports.userLoginBodySchema = {
     },
     additionalProperties: false,
     required: ['email', 'password'],
+    maxProperties: 2,
+    minProperties: 2,
+};
+exports.userUpdatePasswordBodySchema = {
+    title: 'User Update Password Body Schema',
+    type: 'object',
+    properties: {
+        newPassword: { type: 'string', minLength: 6 },
+        password: { type: 'string', minLength: 6 },
+    },
+    additionalProperties: false,
+    required: ['newPassword', 'password'],
     maxProperties: 2,
     minProperties: 2,
 };

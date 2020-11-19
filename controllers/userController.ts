@@ -124,7 +124,37 @@ export default class UserController {
       return;
     } catch (error) {
       console.log(error);
-      return reply.send(500).send({ ok: false, message: 'Internal Error' });
+      return reply.code(500).send({ ok: false, message: 'Internal Error' });
+    }
+  }
+
+  public async update(req: FastifyRequest, reply: FastifyReply) {
+    try {
+      const { email, uid } = <any>req.user;
+      const { password, newPassword } = <any>req.body;
+      if (password === newPassword) {
+        return reply.code(serverReply.badRequest.code).send({
+          ok: false,
+          message: 'La nueva contraseña no debe ser igual a la anterior',
+        });
+      }
+      const user = await service.getByEmail(email);
+      if (!user || !bcrypt.compareSync(password, user.password)) {
+        return reply
+          .code(serverReply.badRequest.code)
+          .send({ ok: false, message: 'Contraseña incorrecta' });
+      }
+      const salt: string = bcrypt.genSaltSync(Number(process.env.SALT));
+      const newPasswordEncrypted = bcrypt.hashSync(newPassword, salt);
+      await service.update(uid, {
+        password: newPasswordEncrypted,
+      });
+      return reply
+        .code(200)
+        .send({ ok: true, message: 'La contraseña ha sido actualizada' });
+    } catch (error) {
+      console.log(error);
+      return reply.code(500).send({ ok: false, message: 'Internal Error' });
     }
   }
 }

@@ -44,4 +44,11 @@ export default class UserService {
       schema: Esp,
     });
   }
+
+  public update(uid: ID, toUpdate: {}) {
+    return User.findByIdAndUpdate(uid, toUpdate, {
+      new: true,
+      runValidators: true,
+    });
+  }
 }

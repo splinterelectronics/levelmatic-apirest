@@ -5,6 +5,7 @@ import {
   userLoginOpts,
   userAddDeviceOpts,
   userGetDevicesOpts,
+  userUpdateOpts,
 } from './options/userOptions';
 import UserController from '../controllers/userController';
 import { IUser, IUserLogin } from '../interfaces/userInterfaces';
@@ -24,6 +25,7 @@ const routes = async (fastify: FastifyInstance) => {
       fastify
         .addHook('preValidation', (<any>fastify).authenticate)
         .get('/devices', userGetDevicesOpts, userController.getEspsByUser)
+        .put('/', userUpdateOpts, userController.update)
         .put<{ Body: { idESP: ID } }>(
           '/device',
           userAddDeviceOpts,

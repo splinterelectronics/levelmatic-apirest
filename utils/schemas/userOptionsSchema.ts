@@ -58,6 +58,19 @@ export const userLoginBodySchema = {
   minProperties: 2,
 };
 
+export const userUpdatePasswordBodySchema = {
+  title: 'User Update Password Body Schema',
+  type: 'object',
+  properties: {
+    newPassword: { type: 'string', minLength: 6 },
+    password: { type: 'string', minLength: 6 },
+  },
+  additionalProperties: false,
+  required: ['newPassword', 'password'],
+  maxProperties: 2,
+  minProperties: 2,
+};
+
 export const userAddDeviceBodySchema = {
   title: 'User Add Device Body Schema',
   type: 'object',

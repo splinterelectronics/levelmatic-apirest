@@ -9,6 +9,7 @@ import {
   userLoginResponseSchema,
   userAddDeviceBodySchema,
   userAddDeviceResponseSchema,
+  userUpdatePasswordBodySchema,
 } from '../../utils/schemas/userOptionsSchema';
 
 export const userRegisterOpts: RouteShorthandOptions = {
@@ -37,5 +38,11 @@ export const userAddDeviceOpts: RouteShorthandOptions = {
 export const userGetDevicesOpts: RouteShorthandOptions = {
   schema: {
     response: userAddDeviceResponseSchema,
+  },
+};
+
+export const userUpdateOpts: RouteShorthandOptions = {
+  schema: {
+    body: userUpdatePasswordBodySchema,
   },
 };

@@ -56,6 +56,7 @@ var routes = function (fastify) { return __awaiter(void 0, void 0, void 0, funct
                 fastify
                     .addHook('preValidation', fastify.authenticate)
                     .get('/devices', userOptions_1.userGetDevicesOpts, userController.getEspsByUser)
+                    .put('/', userOptions_1.userUpdateOpts, userController.update)
                     .put('/device', userOptions_1.userAddDeviceOpts, userController.addEspToUser);
                 return [2 /*return*/];
             });

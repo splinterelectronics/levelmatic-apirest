@@ -74,7 +74,7 @@ var EspController = /** @class */ (function () {
                     case 2:
                         error_1 = _a.sent();
                         console.log(error_1);
-                        return [2 /*return*/, reply.send(500).send({ ok: false, message: 'Internal Error' })];
+                        return [2 /*return*/, reply.code(500).send({ ok: false, message: 'Internal Error' })];
                     case 3: return [2 /*return*/];
                 }
             });

@@ -197,8 +197,50 @@ var UserController = /** @class */ (function () {
                     case 2:
                         error_5 = _a.sent();
                         console.log(error_5);
-                        return [2 /*return*/, reply.send(500).send({ ok: false, message: 'Internal Error' })];
+                        return [2 /*return*/, reply.code(500).send({ ok: false, message: 'Internal Error' })];
                     case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    UserController.prototype.update = function (req, reply) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _a, email, uid, _b, password, newPassword, user, salt, newPasswordEncrypted, error_6;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        _c.trys.push([0, 3, , 4]);
+                        _a = req.user, email = _a.email, uid = _a.uid;
+                        _b = req.body, password = _b.password, newPassword = _b.newPassword;
+                        if (password === newPassword) {
+                            return [2 /*return*/, reply.code(serverReply_1.default.badRequest.code).send({
+                                    ok: false,
+                                    message: 'La nueva contraseña no debe ser igual a la anterior',
+                                })];
+                        }
+                        return [4 /*yield*/, service.getByEmail(email)];
+                    case 1:
+                        user = _c.sent();
+                        if (!user || !bcryptjs_1.default.compareSync(password, user.password)) {
+                            return [2 /*return*/, reply
+                                    .code(serverReply_1.default.badRequest.code)
+                                    .send({ ok: false, message: 'Contraseña incorrecta' })];
+                        }
+                        salt = bcryptjs_1.default.genSaltSync(Number(process.env.SALT));
+                        newPasswordEncrypted = bcryptjs_1.default.hashSync(newPassword, salt);
+                        return [4 /*yield*/, service.update(uid, {
+                                password: newPasswordEncrypted,
+                            })];
+                    case 2:
+                        _c.sent();
+                        return [2 /*return*/, reply
+                                .code(200)
+                                .send({ ok: true, message: 'La contraseña ha sido actualizada' })];
+                    case 3:
+                        error_6 = _c.sent();
+                        console.log(error_6);
+                        return [2 /*return*/, reply.code(500).send({ ok: false, message: 'Internal Error' })];
+                    case 4: return [2 /*return*/];
                 }
             });
         });
