@@ -30,3 +30,9 @@ export const userAddDeviceOpts: RouteShorthandOptions = {
   },
   preHandler: userAddDevicePreHandler,
 };
+
+export const userGetDevicesOpts: RouteShorthandOptions = {
+  schema: {
+    response: userAddDeviceResponseSchema,
+  },
+};

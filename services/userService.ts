@@ -36,4 +36,12 @@ export default class UserService {
       schema: Esp,
     });
   }
+
+  public getEsps(uid: ID) {
+    return User.findById(uid).populate({
+      path: 'devices',
+      populate: { path: 'lastMeasure' },
+      schema: Esp,
+    });
+  }
 }

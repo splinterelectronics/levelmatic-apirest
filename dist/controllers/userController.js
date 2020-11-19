@@ -148,6 +148,27 @@ var UserController = /** @class */ (function () {
             });
         });
     };
+    UserController.prototype.getEspsByUser = function (req, reply) {
+        return __awaiter(this, void 0, void 0, function () {
+            var uid, devices, error_4;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        uid = req.user.uid;
+                        return [4 /*yield*/, service.getEsps(uid)];
+                    case 1:
+                        devices = (_a.sent()).devices;
+                        return [2 /*return*/, reply.send({ ok: true, devices: devices })];
+                    case 2:
+                        error_4 = _a.sent();
+                        console.log(error_4);
+                        return [2 /*return*/, reply.code(500).send({ ok: false, code: 500 })];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
     return UserController;
 }());
 exports.default = UserController;

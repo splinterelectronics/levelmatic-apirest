@@ -35,6 +35,13 @@ var UserService = /** @class */ (function () {
             schema: espModel_1.default,
         });
     };
+    UserService.prototype.getEsps = function (uid) {
+        return userModel_1.default.findById(uid).populate({
+            path: 'devices',
+            populate: { path: 'lastMeasure' },
+            schema: espModel_1.default,
+        });
+    };
     return UserService;
 }());
 exports.default = UserService;

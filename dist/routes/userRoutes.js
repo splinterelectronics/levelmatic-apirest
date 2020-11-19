@@ -53,7 +53,8 @@ var routes = function (fastify) { return __awaiter(void 0, void 0, void 0, funct
             return __generator(this, function (_a) {
                 fastify
                     .addHook('preValidation', fastify.authenticate)
-                    .put('/device', userOptions_1.userAddDeviceOpts, userController.addEspToUser);
+                    .put('/device', userOptions_1.userAddDeviceOpts, userController.addEspToUser)
+                    .get('/devices', userOptions_1.userGetDevicesOpts, userController.getEspsByUser);
                 return [2 /*return*/];
             });
         }); });

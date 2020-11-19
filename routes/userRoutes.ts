@@ -4,6 +4,7 @@ import {
   userRegisterOpts,
   userLoginOpts,
   userAddDeviceOpts,
+  userGetDevicesOpts,
 } from './options/userOptions';
 import UserController from '../controllers/userController';
 import { IUser, IUserLogin } from '../interfaces/userInterfaces';
@@ -24,7 +25,8 @@ const routes = async (fastify: FastifyInstance) => {
           '/device',
           userAddDeviceOpts,
           userController.addEspToUser
-        );
+        )
+        .get('/devices', userGetDevicesOpts, userController.getEspsByUser);
     });
 };
 

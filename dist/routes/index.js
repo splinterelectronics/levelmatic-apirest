@@ -38,9 +38,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var routes = function (fastify) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
-        // fastify.get('/', async (req, reply) => {
-        //   return { hello: 'world' };
-        // });
         fastify
             .register(require('./userRoutes'), { prefix: '/user' })
             .register(require('./measureRoutes'), { prefix: '/measure' });

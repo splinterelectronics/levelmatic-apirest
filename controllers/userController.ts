@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { FastifyReply, FastifyInstance } from 'fastify';
+import { FastifyReply, FastifyInstance, FastifyRequest } from 'fastify';
 import bcrypt from 'bcryptjs';
 import {
   UserRegisterRequest,
@@ -81,6 +81,17 @@ export default class UserController {
       if (!devices || devices?.length === 0) {
         return reply.send({ ok: false, code: 400 });
       }
+      return reply.send({ ok: true, devices });
+    } catch (error) {
+      console.log(error);
+      return reply.code(500).send({ ok: false, code: 500 });
+    }
+  }
+
+  public async getEspsByUser(req: FastifyRequest, reply: FastifyReply) {
+    try {
+      const { uid } = <any>req.user;
+      const { devices } = await (<any>service.getEsps(uid));
       return reply.send({ ok: true, devices });
     } catch (error) {
       console.log(error);

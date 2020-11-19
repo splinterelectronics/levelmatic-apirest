@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.userAddDeviceOpts = exports.userLoginOpts = exports.userRegisterOpts = void 0;
+exports.userGetDevicesOpts = exports.userAddDeviceOpts = exports.userLoginOpts = exports.userRegisterOpts = void 0;
 var userHooks_1 = __importDefault(require("../../utils/hooks/userHooks"));
 var userOptionsSchema_1 = require("../../utils/schemas/userOptionsSchema");
 exports.userRegisterOpts = {
@@ -24,4 +24,9 @@ exports.userAddDeviceOpts = {
         response: userOptionsSchema_1.userAddDeviceResponseSchema,
     },
     preHandler: userHooks_1.default,
+};
+exports.userGetDevicesOpts = {
+    schema: {
+        response: userOptionsSchema_1.userAddDeviceResponseSchema,
+    },
 };
