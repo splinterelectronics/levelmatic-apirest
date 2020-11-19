@@ -45,7 +45,9 @@ var userController = userController_1.default.Instance;
 var routes = function (fastify) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         fastify
-            .post('/', userOptions_1.userRegisterOpts, userController.create)
+            .post('/', userOptions_1.userRegisterOpts, function (req, reply) {
+            userController.create(fastify, req, reply);
+        })
             .post('/login', userOptions_1.userLoginOpts, function (req, reply) {
             userController.login(fastify, req, reply);
         })
@@ -53,8 +55,8 @@ var routes = function (fastify) { return __awaiter(void 0, void 0, void 0, funct
             return __generator(this, function (_a) {
                 fastify
                     .addHook('preValidation', fastify.authenticate)
-                    .put('/device', userOptions_1.userAddDeviceOpts, userController.addEspToUser)
-                    .get('/devices', userOptions_1.userGetDevicesOpts, userController.getEspsByUser);
+                    .get('/devices', userOptions_1.userGetDevicesOpts, userController.getEspsByUser)
+                    .put('/device', userOptions_1.userAddDeviceOpts, userController.addEspToUser);
                 return [2 /*return*/];
             });
         }); });

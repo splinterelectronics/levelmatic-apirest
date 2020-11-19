@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-underscore-dangle */
 import { FastifyReply, FastifyInstance, FastifyRequest } from 'fastify';
 import bcrypt from 'bcryptjs';
@@ -22,7 +23,11 @@ export default class UserController {
     return UserController.instance;
   }
 
-  public async create(req: UserRegisterRequest, reply: FastifyReply) {
+  public async create(
+    fastify: FastifyInstance,
+    req: UserRegisterRequest,
+    reply: FastifyReply
+  ) {
     try {
       const { username, password, email } = req.body;
       const salt: string = bcrypt.genSaltSync(Number(process.env.SALT));
@@ -32,7 +37,14 @@ export default class UserController {
         password: bcrypt.hashSync(password, salt),
       };
       const userDB = await service.create(user);
-      return reply.code(serverReply.created.code).send(userDB);
+      const payload = { uid: userDB._id, email: userDB.email };
+      const tokenJWT = fastify.jwt.sign(payload, {
+        expiresIn: '30d',
+      });
+      const { _id: uid } = userDB;
+      return reply
+        .code(serverReply.success.code)
+        .send({ ok: true, tokenJWT, devices: [], uid, username, email });
     } catch (error) {
       console.log(error);
       return reply.code(500).send({ ok: false, code: 500 });
@@ -46,7 +58,7 @@ export default class UserController {
   ) {
     try {
       const { email, password } = req.body;
-      const user = await service.login(email);
+      const user = await service.getByEmail(email);
       if (!user || !bcrypt.compareSync(password, user.password)) {
         return reply
           .code(serverReply.badRequest.code)
@@ -96,6 +108,23 @@ export default class UserController {
     } catch (error) {
       console.log(error);
       return reply.code(500).send({ ok: false, code: 500 });
+    }
+  }
+
+  public async exist(req: FastifyRequest, reply: FastifyReply) {
+    try {
+      const { email } = <any>req.body;
+      const userExist = await service.getByEmail(email);
+      if (userExist) {
+        return reply.code(400).send({
+          ok: false,
+          message: 'Ya hay un usuario registrado con ese email',
+        });
+      }
+      return;
+    } catch (error) {
+      console.log(error);
+      return reply.send(500).send({ ok: false, message: 'Internal Error' });
     }
   }
 }

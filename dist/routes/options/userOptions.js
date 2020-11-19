@@ -1,16 +1,14 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userGetDevicesOpts = exports.userAddDeviceOpts = exports.userLoginOpts = exports.userRegisterOpts = void 0;
-var userHooks_1 = __importDefault(require("../../utils/hooks/userHooks"));
+var userHooks_1 = require("../../utils/hooks/userHooks");
 var userOptionsSchema_1 = require("../../utils/schemas/userOptionsSchema");
 exports.userRegisterOpts = {
     schema: {
         body: userOptionsSchema_1.userRegisterBodySchema,
-        response: userOptionsSchema_1.userRegisterResponseSchema,
+        response: userOptionsSchema_1.userLoginResponseSchema,
     },
+    preHandler: userHooks_1.userRegisterPreHandler,
 };
 exports.userLoginOpts = {
     schema: {
@@ -23,7 +21,7 @@ exports.userAddDeviceOpts = {
         body: userOptionsSchema_1.userAddDeviceBodySchema,
         response: userOptionsSchema_1.userAddDeviceResponseSchema,
     },
-    preHandler: userHooks_1.default,
+    preHandler: userHooks_1.userAddDevicePreHandler,
 };
 exports.userGetDevicesOpts = {
     schema: {

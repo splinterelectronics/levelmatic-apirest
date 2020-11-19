@@ -26,7 +26,7 @@ var MeasureService = /** @class */ (function () {
                 $gte: from.toDate(),
                 $lte: to.toDate(),
             },
-        });
+        }).sort({ dateMeasure: 'asc' });
     };
     return MeasureService;
 }());

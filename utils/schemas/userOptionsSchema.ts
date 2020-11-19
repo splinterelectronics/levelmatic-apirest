@@ -1,14 +1,3 @@
-export const userRegisterResponseSchema = {
-  201: {
-    type: 'object',
-    properties: {
-      _id: { type: 'string' },
-      username: { type: 'string' },
-      email: { type: 'string' },
-    },
-  },
-};
-
 export const userRegisterBodySchema = {
   title: 'User Register Body Schema',
   type: 'object',

@@ -17,7 +17,7 @@ export default class UserService {
     return new User(user).save();
   }
 
-  public login(email: string) {
+  public getByEmail(email: string) {
     return User.findOne({ email }).populate({
       path: 'devices',
       populate: { path: 'lastMeasure' },

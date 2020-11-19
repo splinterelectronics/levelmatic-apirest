@@ -21,7 +21,7 @@ var UserService = /** @class */ (function () {
     UserService.prototype.create = function (user) {
         return new userModel_1.default(user).save();
     };
-    UserService.prototype.login = function (email) {
+    UserService.prototype.getByEmail = function (email) {
         return userModel_1.default.findOne({ email: email }).populate({
             path: 'devices',
             populate: { path: 'lastMeasure' },

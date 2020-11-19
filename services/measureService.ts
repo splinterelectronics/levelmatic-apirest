@@ -20,6 +20,6 @@ export default class MeasureService {
         $gte: from.toDate(),
         $lte: to.toDate(),
       },
-    });
+    }).sort({ dateMeasure: 'asc' });
   }
 }

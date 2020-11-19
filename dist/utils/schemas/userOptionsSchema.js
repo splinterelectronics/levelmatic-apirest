@@ -1,16 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.userAddDeviceResponseSchema = exports.userAddDeviceBodySchema = exports.userLoginBodySchema = exports.userLoginResponseSchema = exports.userRegisterBodySchema = exports.userRegisterResponseSchema = void 0;
-exports.userRegisterResponseSchema = {
-    201: {
-        type: 'object',
-        properties: {
-            _id: { type: 'string' },
-            username: { type: 'string' },
-            email: { type: 'string' },
-        },
-    },
-};
+exports.userAddDeviceResponseSchema = exports.userAddDeviceBodySchema = exports.userLoginBodySchema = exports.userLoginResponseSchema = exports.userRegisterBodySchema = void 0;
 exports.userRegisterBodySchema = {
     title: 'User Register Body Schema',
     type: 'object',

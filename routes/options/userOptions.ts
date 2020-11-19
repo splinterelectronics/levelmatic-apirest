@@ -1,7 +1,9 @@
 import { RouteShorthandOptions } from 'fastify';
-import userAddDevicePreHandler from '../../utils/hooks/userHooks';
 import {
-  userRegisterResponseSchema,
+  userAddDevicePreHandler,
+  userRegisterPreHandler,
+} from '../../utils/hooks/userHooks';
+import {
   userRegisterBodySchema,
   userLoginBodySchema,
   userLoginResponseSchema,
@@ -12,8 +14,9 @@ import {
 export const userRegisterOpts: RouteShorthandOptions = {
   schema: {
     body: userRegisterBodySchema,
-    response: userRegisterResponseSchema,
+    response: userLoginResponseSchema,
   },
+  preHandler: userRegisterPreHandler,
 };
 
 export const userLoginOpts: RouteShorthandOptions = {
