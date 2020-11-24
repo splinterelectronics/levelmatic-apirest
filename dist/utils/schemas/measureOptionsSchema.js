@@ -14,6 +14,10 @@ exports.measureReadBodySchema = {
 };
 exports.measureReadResponseSchema = {
     200: {
-        type: 'array',
+        type: 'object',
+        properties: {
+            liquidLevels: { type: 'array' },
+            dataX: { type: 'array' },
+        },
     },
 };

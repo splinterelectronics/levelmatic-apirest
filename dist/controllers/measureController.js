@@ -40,6 +40,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var measureService_1 = __importDefault(require("../services/measureService"));
+var getDateArray_1 = __importDefault(require("../utils/helpers/getDateArray"));
 var service = measureService_1.default.Instance;
 var MeasureController = /** @class */ (function () {
     function MeasureController() {
@@ -58,19 +59,31 @@ var MeasureController = /** @class */ (function () {
      * read
      */
     MeasureController.prototype.read = function (req, reply) {
+        var _a;
         return __awaiter(this, void 0, void 0, function () {
-            var _a, idESP, range, measures, error_1;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var _b, idESP, range, measures, dataY, liquidLevels, error_1;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
                     case 0:
-                        _b.trys.push([0, 2, , 3]);
-                        _a = req.query, idESP = _a.idESP, range = _a.range;
+                        _c.trys.push([0, 2, , 3]);
+                        _b = req.query, idESP = _b.idESP, range = _b.range;
                         return [4 /*yield*/, service.getByEspId(idESP, range)];
                     case 1:
-                        measures = _b.sent();
-                        return [2 /*return*/, reply.code(200).send(measures)];
+                        measures = _c.sent();
+                        dataY = measures;
+                        liquidLevels = ((_a = measures[0]) === null || _a === void 0 ? void 0 : _a.liquidLevel) ? dataY.map(function (_a) {
+                            var liquidLevel = _a.liquidLevel;
+                            return liquidLevel;
+                        })
+                            : dataY.map(function (_a) {
+                                var avgValue = _a.avgValue;
+                                return avgValue;
+                            });
+                        return [2 /*return*/, reply
+                                .code(200)
+                                .send({ liquidLevels: liquidLevels, dataX: getDateArray_1.default(measures, range) })];
                     case 2:
-                        error_1 = _b.sent();
+                        error_1 = _c.sent();
                         console.log(error_1);
                         return [2 /*return*/, reply.code(500).send({ ok: false, code: 500 })];
                     case 3: return [2 /*return*/];

@@ -12,6 +12,10 @@ export const measureReadBodySchema = {
 
 export const measureReadResponseSchema = {
   200: {
-    type: 'array',
+    type: 'object',
+    properties: {
+      liquidLevels: { type: 'array' },
+      dataX: { type: 'array' },
+    },
   },
 };
