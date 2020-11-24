@@ -15,13 +15,5 @@ exports.measureReadBodySchema = {
 exports.measureReadResponseSchema = {
     200: {
         type: 'array',
-        items: {
-            type: 'object',
-            properties: {
-                liquidLevel: { type: 'number' },
-                batteryLevel: { type: 'number' },
-                dateMeasure: { type: 'string', format: 'date-time' },
-            },
-        },
     },
 };

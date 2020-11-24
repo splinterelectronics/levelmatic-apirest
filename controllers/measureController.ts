@@ -21,7 +21,6 @@ export default class MeasureController {
     try {
       const { idESP, range } = req.query;
       const measures = await service.getByEspId(idESP, range);
-      console.log(measures);
       return reply.code(200).send(measures);
     } catch (error) {
       console.log(error);
