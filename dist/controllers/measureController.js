@@ -68,6 +68,7 @@ var MeasureController = /** @class */ (function () {
                         return [4 /*yield*/, service.getByEspId(idESP, range)];
                     case 1:
                         measures = _b.sent();
+                        console.log(measures);
                         return [2 /*return*/, reply.code(200).send(measures)];
                     case 2:
                         error_1 = _b.sent();

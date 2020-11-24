@@ -25,7 +25,7 @@ var getRangeDate = function (interval) {
             return { from: from, to: to };
         }
         case '1m': {
-            var from = to.subtract(1, 'month');
+            var from = to.subtract(30, 'day');
             return { from: from, to: to };
         }
         default: {
