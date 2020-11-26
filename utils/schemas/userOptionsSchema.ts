@@ -94,6 +94,8 @@ export const userAddDeviceResponseSchema = {
             _id: { type: 'string' },
             name: { type: 'string' },
             owner: { type: 'string' },
+            minLevel: { type: 'number' },
+            notification: { type: 'boolean' },
             rxConnection: { type: 'string', format: 'date-time' },
             lastMeasure: {
               type: 'object',
