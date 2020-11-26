@@ -21,7 +21,7 @@ var EspService = /** @class */ (function () {
         return espModel_1.default.findById(id);
     };
     EspService.prototype.updateById = function (id, data) {
-        return espModel_1.default.findByIdAndUpdate(id, data, { new: true });
+        return espModel_1.default.findByIdAndUpdate(id, data, { new: true }).populate('lastMeasure');
     };
     return EspService;
 }());

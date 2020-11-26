@@ -17,6 +17,8 @@ export default class EspService {
   }
 
   public updateById(id: ID, data: EspDTO) {
-    return Esp.findByIdAndUpdate(id, data, { new: true });
+    return Esp.findByIdAndUpdate(id, data, { new: true }).populate(
+      'lastMeasure'
+    );
   }
 }
