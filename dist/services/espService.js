@@ -20,6 +20,9 @@ var EspService = /** @class */ (function () {
     EspService.prototype.getById = function (id) {
         return espModel_1.default.findById(id);
     };
+    EspService.prototype.updateById = function (id, data) {
+        return espModel_1.default.findByIdAndUpdate(id, data, { new: true });
+    };
     return EspService;
 }());
 exports.default = EspService;

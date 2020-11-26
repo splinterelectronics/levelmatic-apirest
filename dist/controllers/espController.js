@@ -80,6 +80,33 @@ var EspController = /** @class */ (function () {
             });
         });
     };
+    EspController.prototype.update = function (req, reply) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _a, id, name_1, notification, minLevel, data, espUpdated, error_2;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _b.trys.push([0, 2, , 3]);
+                        _a = req.body, id = _a.id, name_1 = _a.name, notification = _a.notification, minLevel = _a.minLevel;
+                        data = { name: name_1, notification: notification, minLevel: minLevel };
+                        return [4 /*yield*/, service.updateById(id, data)];
+                    case 1:
+                        espUpdated = _b.sent();
+                        if (!espUpdated) {
+                            return [2 /*return*/, reply
+                                    .code(400)
+                                    .send({ ok: false, message: 'No se pudo actualizar' })];
+                        }
+                        return [2 /*return*/, reply.code(200).send({ ok: true, espUpdated: espUpdated })];
+                    case 2:
+                        error_2 = _b.sent();
+                        console.log(error_2);
+                        return [2 /*return*/, reply.code(500).send({ ok: false, message: 'Internal Error' })];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
     return EspController;
 }());
 exports.default = EspController;

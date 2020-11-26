@@ -1,5 +1,6 @@
 import { ID } from '../interfaces/measureInterfaces';
 import Esp from '../models/espModel';
+import { EspDTO } from '../interfaces/espInterfaces';
 
 export default class EspService {
   private static instance: EspService;
@@ -13,5 +14,9 @@ export default class EspService {
 
   public getById(id: ID) {
     return Esp.findById(id);
+  }
+
+  public updateById(id: ID, data: EspDTO) {
+    return Esp.findByIdAndUpdate(id, data, { new: true });
   }
 }

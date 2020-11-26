@@ -40,7 +40,8 @@ var routes = function (fastify) { return __awaiter(void 0, void 0, void 0, funct
     return __generator(this, function (_a) {
         fastify
             .register(require('./userRoutes'), { prefix: '/user' })
-            .register(require('./measureRoutes'), { prefix: '/measure' });
+            .register(require('./measureRoutes'), { prefix: '/measure' })
+            .register(require('./espRoutes'), { prefix: '/esp' });
         return [2 /*return*/];
     });
 }); };
