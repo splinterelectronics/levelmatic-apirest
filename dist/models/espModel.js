@@ -12,6 +12,8 @@ var EspSchemaFields = {
     },
     name: String,
     rxConnection: Date,
+    minLevel: Number,
+    notification: Boolean,
 };
 var EspSchema = new mongoose_1.Schema(EspSchemaFields);
 var Esp = mongoose_1.model('Esp', EspSchema);

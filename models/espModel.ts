@@ -12,6 +12,8 @@ const EspSchemaFields: Record<keyof IESP, any> = {
   },
   name: String,
   rxConnection: Date,
+  minLevel: Number,
+  notification: Boolean,
 };
 
 const EspSchema = new Schema(EspSchemaFields);

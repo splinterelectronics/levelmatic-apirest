@@ -7,6 +7,8 @@ export interface IESP {
   lastMeasure: ID | IMeasureDoc;
   name: string;
   rxConnection: Date;
+  minLevel: number;
+  notification: boolean;
 }
 
 export interface IESPDoc extends Document, IESP {}
