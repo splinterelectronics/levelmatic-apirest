@@ -3,7 +3,7 @@ import { FastifyRequest, FastifyReply } from 'fastify';
 import fastifyJWT, { FastifyJWTOptions } from 'fastify-jwt';
 
 const jwtOptions: FastifyJWTOptions = {
-  secret: process.env.SECRET_JWT_SEED,
+  secret: <string>process.env.SECRET_JWT_SEED,
 };
 
 module.exports = fp(async (fastify) => {

@@ -9,7 +9,7 @@ const options = {
 
 const dbConnection = async () => {
   try {
-    await mongoose.connect(process.env.DB_CN, options);
+    await mongoose.connect(<string>process.env.DB_CN, options);
     console.log('db online');
   } catch (err) {
     console.log(err);
