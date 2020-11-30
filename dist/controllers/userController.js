@@ -42,6 +42,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var bcryptjs_1 = __importDefault(require("bcryptjs"));
 var userService_1 = __importDefault(require("../services/userService"));
 var serverReply_1 = __importDefault(require("../utils/helpers/serverReply"));
+var getDevices_1 = __importDefault(require("../utils/helpers/getDevices"));
 var service = userService_1.default.Instance;
 var UserController = /** @class */ (function () {
     function UserController() {
@@ -92,7 +93,7 @@ var UserController = /** @class */ (function () {
     };
     UserController.prototype.login = function (fastify, req, reply) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, email, password, user, payload, tokenJWT, devices, uid, username, replyUserData, error_2;
+            var _a, email, password, user, payload, tokenJWT, devices, uid, username, fetchDevices, replyUserData, error_2;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -111,10 +112,11 @@ var UserController = /** @class */ (function () {
                             expiresIn: '30d',
                         });
                         devices = user.devices, uid = user._id, username = user.username;
+                        fetchDevices = getDevices_1.default(devices);
                         replyUserData = {
                             ok: true,
                             tokenJWT: tokenJWT,
-                            devices: devices,
+                            devices: fetchDevices,
                             uid: uid,
                             username: username,
                             email: email,

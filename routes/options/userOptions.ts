@@ -23,7 +23,7 @@ export const userRegisterOpts: RouteShorthandOptions = {
 export const userLoginOpts: RouteShorthandOptions = {
   schema: {
     body: userLoginBodySchema,
-    response: userLoginResponseSchema,
+    // response: userLoginResponseSchema,
   },
 };
 

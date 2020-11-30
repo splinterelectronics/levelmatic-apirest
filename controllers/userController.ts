@@ -10,6 +10,7 @@ import {
 } from '../interfaces/userInterfaces';
 import UserService from '../services/userService';
 import serverReply from '../utils/helpers/serverReply';
+import getDevices from '../utils/helpers/getDevices';
 
 const service = UserService.Instance;
 
@@ -69,10 +70,11 @@ export default class UserController {
         expiresIn: '30d',
       });
       const { devices, _id: uid, username } = user;
+      const fetchDevices = getDevices(<any>devices);
       const replyUserData = {
         ok: true,
         tokenJWT,
-        devices,
+        devices: fetchDevices,
         uid,
         username,
         email,

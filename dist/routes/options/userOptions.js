@@ -13,7 +13,6 @@ exports.userRegisterOpts = {
 exports.userLoginOpts = {
     schema: {
         body: userOptionsSchema_1.userLoginBodySchema,
-        response: userOptionsSchema_1.userLoginResponseSchema,
     },
 };
 exports.userAddDeviceOpts = {

@@ -30,7 +30,7 @@ var UserSchemaFields = {
     devices: [
         {
             type: mongoose_1.Schema.Types.ObjectId,
-            ref: 'Esp',
+            ref: 'Levelmatic',
         },
     ],
 };

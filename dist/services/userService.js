@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var userModel_1 = __importDefault(require("../models/userModel"));
 var espModel_1 = __importDefault(require("../models/espModel"));
+var levelmaticModel_1 = __importDefault(require("../models/levelmaticModel"));
 var UserService = /** @class */ (function () {
     function UserService() {
     }
@@ -24,8 +25,8 @@ var UserService = /** @class */ (function () {
     UserService.prototype.getByEmail = function (email) {
         return userModel_1.default.findOne({ email: email }).populate({
             path: 'devices',
-            populate: { path: 'lastMeasure' },
-            schema: espModel_1.default,
+            populate: { path: 'devicesESP', populate: { path: 'lastMeasure' } },
+            schema: levelmaticModel_1.default,
         });
     };
     UserService.prototype.addEspToUser = function (uid, idESP) {

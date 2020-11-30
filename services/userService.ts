@@ -2,6 +2,7 @@ import { IUser } from '../interfaces/userInterfaces';
 import User from '../models/userModel';
 import Esp from '../models/espModel';
 import { ID } from '../interfaces/measureInterfaces';
+import Levelmatic from '../models/levelmaticModel';
 
 export default class UserService {
   private static instance: UserService;
@@ -20,8 +21,8 @@ export default class UserService {
   public getByEmail(email: string) {
     return User.findOne({ email }).populate({
       path: 'devices',
-      populate: { path: 'lastMeasure' },
-      schema: Esp,
+      populate: { path: 'devicesESP', populate: { path: 'lastMeasure' } },
+      schema: Levelmatic,
     });
   }
 

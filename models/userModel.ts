@@ -19,7 +19,7 @@ const UserSchemaFields: Record<keyof IUser, any> = {
   devices: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'Esp',
+      ref: 'Levelmatic',
     },
   ],
 };
