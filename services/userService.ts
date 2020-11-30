@@ -41,8 +41,8 @@ export default class UserService {
   public getEsps(uid: ID) {
     return User.findById(uid).populate({
       path: 'devices',
-      populate: { path: 'lastMeasure' },
-      schema: Esp,
+      populate: { path: 'devicesESP', populate: { path: 'lastMeasure' } },
+      schema: Levelmatic,
     });
   }
 

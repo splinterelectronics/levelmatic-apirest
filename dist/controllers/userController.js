@@ -159,7 +159,7 @@ var UserController = /** @class */ (function () {
     };
     UserController.prototype.getEspsByUser = function (req, reply) {
         return __awaiter(this, void 0, void 0, function () {
-            var uid, devices, error_4;
+            var uid, devices, fetchDevices, error_4;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -168,7 +168,8 @@ var UserController = /** @class */ (function () {
                         return [4 /*yield*/, service.getEsps(uid)];
                     case 1:
                         devices = (_a.sent()).devices;
-                        return [2 /*return*/, reply.send({ ok: true, devices: devices })];
+                        fetchDevices = getDevices_1.default(devices);
+                        return [2 /*return*/, reply.send({ ok: true, devices: fetchDevices })];
                     case 2:
                         error_4 = _a.sent();
                         console.log(error_4);

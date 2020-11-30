@@ -39,8 +39,8 @@ var UserService = /** @class */ (function () {
     UserService.prototype.getEsps = function (uid) {
         return userModel_1.default.findById(uid).populate({
             path: 'devices',
-            populate: { path: 'lastMeasure' },
-            schema: espModel_1.default,
+            populate: { path: 'devicesESP', populate: { path: 'lastMeasure' } },
+            schema: levelmaticModel_1.default,
         });
     };
     UserService.prototype.update = function (uid, toUpdate) {

@@ -106,7 +106,8 @@ export default class UserController {
     try {
       const { uid } = <any>req.user;
       const { devices } = await (<any>service.getEsps(uid));
-      return reply.send({ ok: true, devices });
+      const fetchDevices = getDevices(<any>devices);
+      return reply.send({ ok: true, devices: fetchDevices });
     } catch (error) {
       console.log(error);
       return reply.code(500).send({ ok: false, code: 500 });
