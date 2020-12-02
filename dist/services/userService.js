@@ -4,7 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var userModel_1 = __importDefault(require("../models/userModel"));
-var espModel_1 = __importDefault(require("../models/espModel"));
 var levelmaticModel_1 = __importDefault(require("../models/levelmaticModel"));
 var UserService = /** @class */ (function () {
     function UserService() {
@@ -29,11 +28,11 @@ var UserService = /** @class */ (function () {
             schema: levelmaticModel_1.default,
         });
     };
-    UserService.prototype.addEspToUser = function (uid, idESP) {
-        return userModel_1.default.findByIdAndUpdate(uid, { $addToSet: { devices: idESP } }, { new: true }).populate({
+    UserService.prototype.addLevelmaticToUser = function (uid, idLevelmatic) {
+        return userModel_1.default.findByIdAndUpdate(uid, { $addToSet: { devices: idLevelmatic } }, { new: true, runValidators: true }).populate({
             path: 'devices',
-            populate: { path: 'lastMeasure' },
-            schema: espModel_1.default,
+            populate: { path: 'devicesESP', populate: { path: 'lastMeasure' } },
+            schema: levelmaticModel_1.default,
         });
     };
     UserService.prototype.getEsps = function (uid) {

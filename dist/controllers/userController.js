@@ -131,23 +131,23 @@ var UserController = /** @class */ (function () {
             });
         });
     };
-    UserController.prototype.addEspToUser = function (req, reply) {
+    UserController.prototype.addLevelmaticToUser = function (req, reply) {
         return __awaiter(this, void 0, void 0, function () {
-            var uid, idESP, user, devices, error_3;
+            var uid, idLevelmatic, devices, fetchDevices, error_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         uid = req.user.uid;
-                        idESP = req.body.idESP;
-                        return [4 /*yield*/, service.addEspToUser(uid, idESP)];
+                        idLevelmatic = req.idLevelmatic;
+                        return [4 /*yield*/, (service.addLevelmaticToUser(uid, idLevelmatic))];
                     case 1:
-                        user = _a.sent();
-                        devices = user === null || user === void 0 ? void 0 : user.devices;
+                        devices = (_a.sent()).devices;
                         if (!devices || (devices === null || devices === void 0 ? void 0 : devices.length) === 0) {
-                            return [2 /*return*/, reply.send({ ok: false, code: 400 })];
+                            return [2 /*return*/, reply.code(400).send({ ok: false, code: 400 })];
                         }
-                        return [2 /*return*/, reply.send({ ok: true, devices: devices })];
+                        fetchDevices = getDevices_1.default(devices);
+                        return [2 /*return*/, reply.send({ ok: true, devices: fetchDevices })];
                     case 2:
                         error_3 = _a.sent();
                         console.log(error_3);
@@ -196,7 +196,7 @@ var UserController = /** @class */ (function () {
                                     message: 'Ya hay un usuario registrado con ese email',
                                 })];
                         }
-                        return [2 /*return*/];
+                        return [2 /*return*/, true];
                     case 2:
                         error_5 = _a.sent();
                         console.log(error_5);

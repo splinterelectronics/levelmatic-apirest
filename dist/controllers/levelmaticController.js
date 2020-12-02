@@ -39,29 +39,53 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var userOptions_1 = require("./options/userOptions");
-var userController_1 = __importDefault(require("../controllers/userController"));
-var userController = userController_1.default.Instance;
-var routes = function (fastify) { return __awaiter(void 0, void 0, void 0, function () {
-    return __generator(this, function (_a) {
-        fastify
-            .post('/', userOptions_1.userRegisterOpts, function (req, reply) {
-            userController.create(fastify, req, reply);
-        })
-            .post('/login', userOptions_1.userLoginOpts, function (req, reply) {
-            userController.login(fastify, req, reply);
-        })
-            .register(function (fastify) { return __awaiter(void 0, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                fastify
-                    .addHook('preValidation', fastify.authenticate)
-                    .get('/devices', userOptions_1.userGetDevicesOpts, userController.getEspsByUser)
-                    .put('/', userOptions_1.userUpdateOpts, userController.update)
-                    .put('/device', userOptions_1.userAddDeviceOpts, userController.addLevelmaticToUser);
-                return [2 /*return*/];
-            });
-        }); });
-        return [2 /*return*/];
+var levelmaticService_1 = __importDefault(require("../services/levelmaticService"));
+var service = levelmaticService_1.default.Instance;
+var LevelmaticController = /** @class */ (function () {
+    function LevelmaticController() {
+    }
+    Object.defineProperty(LevelmaticController, "Instance", {
+        get: function () {
+            if (!LevelmaticController.instance) {
+                LevelmaticController.instance = new LevelmaticController();
+            }
+            return LevelmaticController.instance;
+        },
+        enumerable: false,
+        configurable: true
     });
-}); };
-module.exports = routes;
+    LevelmaticController.prototype.existByCred = function (req, reply) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _a, ipNet, wifiPassword, wifiSSID, levelmaticExist, error_1;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _b.trys.push([0, 2, , 3]);
+                        _a = req.body, ipNet = _a.ipNet, wifiPassword = _a.wifiPassword, wifiSSID = _a.wifiSSID;
+                        return [4 /*yield*/, service.getLevelmaticByCredentials({
+                                ipNet: ipNet,
+                                wifiPassword: wifiPassword,
+                                wifiSSID: wifiSSID,
+                            })];
+                    case 1:
+                        levelmaticExist = _b.sent();
+                        if (!levelmaticExist) {
+                            return [2 /*return*/, reply.code(400).send({
+                                    ok: false,
+                                    message: 'No se pudo encontrar ningún levelmaticWiFi',
+                                })];
+                        }
+                        req.idLevelmatic = levelmaticExist._id;
+                        return [2 /*return*/, true];
+                    case 2:
+                        error_1 = _b.sent();
+                        console.log(error_1);
+                        return [2 /*return*/, reply.code(500).send({ ok: false, message: 'Internal Error' })];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    return LevelmaticController;
+}());
+exports.default = LevelmaticController;

@@ -86,16 +86,21 @@ export default class UserController {
     }
   }
 
-  public async addEspToUser(req: UserAddDeviceRequest, reply: FastifyReply) {
+  public async addLevelmaticToUser(
+    req: UserAddDeviceRequest,
+    reply: FastifyReply
+  ) {
     try {
       const { uid } = <any>req.user;
-      const { idESP } = req.body;
-      const user = await service.addEspToUser(uid, idESP);
-      const devices = user?.devices;
+      const { idLevelmatic } = <any>req;
+      const { devices } = await (<any>(
+        service.addLevelmaticToUser(uid, idLevelmatic)
+      ));
       if (!devices || devices?.length === 0) {
-        return reply.send({ ok: false, code: 400 });
+        return reply.code(400).send({ ok: false, code: 400 });
       }
-      return reply.send({ ok: true, devices });
+      const fetchDevices = getDevices(<any>devices);
+      return reply.send({ ok: true, devices: fetchDevices });
     } catch (error) {
       console.log(error);
       return reply.code(500).send({ ok: false, code: 500 });
@@ -124,7 +129,7 @@ export default class UserController {
           message: 'Ya hay un usuario registrado con ese email',
         });
       }
-      return;
+      return true;
     } catch (error) {
       console.log(error);
       return reply.code(500).send({ ok: false, message: 'Internal Error' });

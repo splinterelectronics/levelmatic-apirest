@@ -77,10 +77,13 @@ export const userAddDeviceBodySchema = {
   title: 'User Add Device Body Schema',
   type: 'object',
   properties: {
-    idESP: { type: 'string', minLength: 24, maxLength: 24 },
+    wifiSSID: { type: 'string' },
+    wifiPassword: { type: 'string' },
+    ipNet: { type: 'string', format: 'ipv4' },
   },
-  require: ['idESP'],
-  maxProperties: 1,
+  required: ['wifiSSID', 'wifiPassword', 'ipNet'],
+  minProperties: 3,
+  maxProperties: 3,
 };
 
 export const userAddDeviceResponseSchema = {

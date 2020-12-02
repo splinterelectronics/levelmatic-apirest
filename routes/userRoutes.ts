@@ -9,7 +9,7 @@ import {
 } from './options/userOptions';
 import UserController from '../controllers/userController';
 import { IUser, IUserLogin } from '../interfaces/userInterfaces';
-import { ID } from '../interfaces/measureInterfaces';
+import { ILevelmaticCred } from '../interfaces/levelmaticInterfaces';
 
 const userController = UserController.Instance;
 
@@ -26,10 +26,10 @@ const routes = async (fastify: FastifyInstance) => {
         .addHook('preValidation', (<any>fastify).authenticate)
         .get('/devices', userGetDevicesOpts, userController.getEspsByUser)
         .put('/', userUpdateOpts, userController.update)
-        .put<{ Body: { idESP: ID } }>(
+        .put<{ Body: ILevelmaticCred }>(
           '/device',
           userAddDeviceOpts,
-          userController.addEspToUser
+          userController.addLevelmaticToUser
         );
     });
 };

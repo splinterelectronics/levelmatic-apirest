@@ -2,6 +2,7 @@ import { Document } from 'mongoose';
 import { FastifyRequest } from 'fastify';
 import { IESPDoc } from './espInterfaces';
 import { ID } from './measureInterfaces';
+import { ILevelmaticCred } from './levelmaticInterfaces';
 
 export interface IUser {
   email: string;
@@ -25,5 +26,5 @@ export type UserLoginRequest = FastifyRequest<{
 }>;
 
 export type UserAddDeviceRequest = FastifyRequest<{
-  Body: { idESP: ID };
+  Body: ILevelmaticCred;
 }>;

@@ -1,6 +1,5 @@
 import { IUser } from '../interfaces/userInterfaces';
 import User from '../models/userModel';
-import Esp from '../models/espModel';
 import { ID } from '../interfaces/measureInterfaces';
 import Levelmatic from '../models/levelmaticModel';
 
@@ -26,15 +25,15 @@ export default class UserService {
     });
   }
 
-  public addEspToUser(uid: ID, idESP: ID) {
+  public addLevelmaticToUser(uid: ID, idLevelmatic: ID) {
     return User.findByIdAndUpdate(
       uid,
-      { $addToSet: { devices: idESP } },
-      { new: true }
+      { $addToSet: { devices: idLevelmatic } },
+      { new: true, runValidators: true }
     ).populate({
       path: 'devices',
-      populate: { path: 'lastMeasure' },
-      schema: Esp,
+      populate: { path: 'devicesESP', populate: { path: 'lastMeasure' } },
+      schema: Levelmatic,
     });
   }
 
