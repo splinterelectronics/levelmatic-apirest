@@ -25,7 +25,7 @@ const getRangeDate = (interval: string = '7d'): { from: Dayjs; to: Dayjs } => {
     }
 
     case '1m': {
-      const from = to.subtract(30, 'day');
+      const from = to.subtract(29, 'day');
       return { from, to };
     }
 
