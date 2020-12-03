@@ -5,6 +5,9 @@ export type ID = Types.ObjectId | string;
 
 export interface ILevelmatic {
   devicesESP?: ID[] | IESPDoc[];
+  wifiSSID: string;
+  wifiPassword: string;
+  ipNet: string;
 }
 
 export interface ILevelmaticCred {

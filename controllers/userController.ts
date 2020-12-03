@@ -32,9 +32,10 @@ export default class UserController {
     try {
       const { username, password, email } = req.body;
       const salt: string = bcrypt.genSaltSync(Number(process.env.SALT));
+      const emailLowerCase = email.toLowerCase();
       const user: IUser = {
         username,
-        email,
+        email: emailLowerCase,
         password: bcrypt.hashSync(password, salt),
       };
       const userDB = await service.create(user);
@@ -43,9 +44,14 @@ export default class UserController {
         expiresIn: '30d',
       });
       const { _id: uid } = userDB;
-      return reply
-        .code(serverReply.success.code)
-        .send({ ok: true, tokenJWT, devices: [], uid, username, email });
+      return reply.code(serverReply.success.code).send({
+        ok: true,
+        tokenJWT,
+        devices: [],
+        uid,
+        username,
+        email: emailLowerCase,
+      });
     } catch (error) {
       console.log(error);
       return reply.code(500).send({ ok: false, code: 500 });
@@ -59,7 +65,7 @@ export default class UserController {
   ) {
     try {
       const { email, password } = req.body;
-      const user = await service.getByEmail(email);
+      const user = await service.getByEmail(email.toLowerCase());
       if (!user || !bcrypt.compareSync(password, user.password)) {
         return reply
           .code(serverReply.badRequest.code)

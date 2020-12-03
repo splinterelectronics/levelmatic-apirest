@@ -59,16 +59,17 @@ var UserController = /** @class */ (function () {
     });
     UserController.prototype.create = function (fastify, req, reply) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, username, password, email, salt, user, userDB, payload, tokenJWT, uid, error_1;
+            var _a, username, password, email, salt, emailLowerCase, user, userDB, payload, tokenJWT, uid, error_1;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
                         _b.trys.push([0, 2, , 3]);
                         _a = req.body, username = _a.username, password = _a.password, email = _a.email;
                         salt = bcryptjs_1.default.genSaltSync(Number(process.env.SALT));
+                        emailLowerCase = email.toLowerCase();
                         user = {
                             username: username,
-                            email: email,
+                            email: emailLowerCase,
                             password: bcryptjs_1.default.hashSync(password, salt),
                         };
                         return [4 /*yield*/, service.create(user)];
@@ -79,9 +80,14 @@ var UserController = /** @class */ (function () {
                             expiresIn: '30d',
                         });
                         uid = userDB._id;
-                        return [2 /*return*/, reply
-                                .code(serverReply_1.default.success.code)
-                                .send({ ok: true, tokenJWT: tokenJWT, devices: [], uid: uid, username: username, email: email })];
+                        return [2 /*return*/, reply.code(serverReply_1.default.success.code).send({
+                                ok: true,
+                                tokenJWT: tokenJWT,
+                                devices: [],
+                                uid: uid,
+                                username: username,
+                                email: emailLowerCase,
+                            })];
                     case 2:
                         error_1 = _b.sent();
                         console.log(error_1);
@@ -99,7 +105,7 @@ var UserController = /** @class */ (function () {
                     case 0:
                         _b.trys.push([0, 2, , 3]);
                         _a = req.body, email = _a.email, password = _a.password;
-                        return [4 /*yield*/, service.getByEmail(email)];
+                        return [4 /*yield*/, service.getByEmail(email.toLowerCase())];
                     case 1:
                         user = _b.sent();
                         if (!user || !bcryptjs_1.default.compareSync(password, user.password)) {

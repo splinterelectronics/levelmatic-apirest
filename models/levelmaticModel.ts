@@ -11,6 +11,15 @@ const LevelmaticSchemaFields: Record<keyof ILevelmatic, any> = {
       ref: 'Esp',
     },
   ],
+  wifiSSID: {
+    type: String,
+  },
+  wifiPassword: {
+    type: String,
+  },
+  ipNet: {
+    type: String,
+  },
 };
 
 const LevelmaticSchema = new Schema(LevelmaticSchemaFields);

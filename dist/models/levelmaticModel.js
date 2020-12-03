@@ -8,6 +8,15 @@ var LevelmaticSchemaFields = {
             ref: 'Esp',
         },
     ],
+    wifiSSID: {
+        type: String,
+    },
+    wifiPassword: {
+        type: String,
+    },
+    ipNet: {
+        type: String,
+    },
 };
 var LevelmaticSchema = new mongoose_1.Schema(LevelmaticSchemaFields);
 var Levelmatic = mongoose_1.model('Levelmatic', LevelmaticSchema);
