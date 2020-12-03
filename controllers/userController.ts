@@ -171,4 +171,17 @@ export default class UserController {
       return reply.code(500).send({ ok: false, message: 'Internal Error' });
     }
   }
+
+  public generateNewToken(
+    fastify: FastifyInstance,
+    req: FastifyRequest,
+    reply: FastifyReply
+  ) {
+    const { email, uid } = <any>req.user;
+    const payload = { uid, email };
+    const tokenJWT = fastify.jwt.sign(payload, {
+      expiresIn: '30d',
+    });
+    reply.send({ ok: true, tokenJWT });
+  }
 }

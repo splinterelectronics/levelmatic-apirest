@@ -25,6 +25,9 @@ const routes = async (fastify: FastifyInstance) => {
       fastify
         .addHook('preValidation', (<any>fastify).authenticate)
         .get('/devices', userGetDevicesOpts, userController.getEspsByUser)
+        .get('/renew', (req, reply) => {
+          userController.generateNewToken(fastify, req, reply);
+        })
         .put('/', userUpdateOpts, userController.update)
         .put<{ Body: ILevelmaticCred }>(
           '/device',

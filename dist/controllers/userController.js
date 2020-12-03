@@ -254,6 +254,14 @@ var UserController = /** @class */ (function () {
             });
         });
     };
+    UserController.prototype.generateNewToken = function (fastify, req, reply) {
+        var _a = req.user, email = _a.email, uid = _a.uid;
+        var payload = { uid: uid, email: email };
+        var tokenJWT = fastify.jwt.sign(payload, {
+            expiresIn: '30d',
+        });
+        reply.send({ ok: true, tokenJWT: tokenJWT });
+    };
     return UserController;
 }());
 exports.default = UserController;
