@@ -3,7 +3,7 @@ import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 
 chai.use(chaiHttp);
-const url = 'https://levelmaticapitest.herokuapp.com';
+const url = 'http://localhost:3000';
 
 const user = {
   email: 'testing400@gmail.com',
