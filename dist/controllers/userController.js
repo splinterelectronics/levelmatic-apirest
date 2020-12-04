@@ -193,7 +193,7 @@ var UserController = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         email = req.body.email;
-                        return [4 /*yield*/, service.getByEmail(email)];
+                        return [4 /*yield*/, service.getByEmail(email.toLowerCase())];
                     case 1:
                         userExist = _a.sent();
                         if (userExist) {

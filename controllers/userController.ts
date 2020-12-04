@@ -128,7 +128,7 @@ export default class UserController {
   public async exist(req: FastifyRequest, reply: FastifyReply) {
     try {
       const { email } = <any>req.body;
-      const userExist = await service.getByEmail(email);
+      const userExist = await service.getByEmail(email.toLowerCase());
       if (userExist) {
         return reply.code(400).send({
           ok: false,
