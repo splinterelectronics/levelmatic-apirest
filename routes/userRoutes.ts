@@ -29,6 +29,7 @@ const routes = async (fastify: FastifyInstance) => {
       fastify
         .addHook('preValidation', (<any>fastify).authenticate)
         .get('/devices', userGetDevicesOpts, userController.getEspsByUser)
+        .get('/levelmatics', userController.getLevelmaticsByUser)
         .get('/renew', (req, reply) => {
           userController.generateNewToken(fastify, req, reply);
         })

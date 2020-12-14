@@ -185,9 +185,30 @@ var UserController = /** @class */ (function () {
             });
         });
     };
+    UserController.prototype.getLevelmaticsByUser = function (req, reply) {
+        return __awaiter(this, void 0, void 0, function () {
+            var uid, levelmatics, error_5;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        uid = req.user.uid;
+                        return [4 /*yield*/, service.getById(uid)];
+                    case 1:
+                        levelmatics = (_a.sent()).devices;
+                        return [2 /*return*/, reply.send({ ok: true, levelmatics: levelmatics })];
+                    case 2:
+                        error_5 = _a.sent();
+                        console.log(error_5);
+                        return [2 /*return*/, reply.code(500).send({ ok: false, code: 500 })];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
     UserController.prototype.exist = function (req, reply) {
         return __awaiter(this, void 0, void 0, function () {
-            var email, userExist, error_5;
+            var email, userExist, error_6;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -204,8 +225,8 @@ var UserController = /** @class */ (function () {
                         }
                         return [2 /*return*/, true];
                     case 2:
-                        error_5 = _a.sent();
-                        console.log(error_5);
+                        error_6 = _a.sent();
+                        console.log(error_6);
                         return [2 /*return*/, reply.code(500).send({ ok: false, message: 'Internal Error' })];
                     case 3: return [2 /*return*/];
                 }
@@ -214,7 +235,7 @@ var UserController = /** @class */ (function () {
     };
     UserController.prototype.update = function (req, reply) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, email, uid, _b, password, newPassword, user, salt, newPasswordEncrypted, error_6;
+            var _a, email, uid, _b, password, newPassword, user, salt, newPasswordEncrypted, error_7;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
@@ -246,8 +267,8 @@ var UserController = /** @class */ (function () {
                                 .code(200)
                                 .send({ ok: true, message: 'La contraseña ha sido actualizada' })];
                     case 3:
-                        error_6 = _c.sent();
-                        console.log(error_6);
+                        error_7 = _c.sent();
+                        console.log(error_7);
                         return [2 /*return*/, reply.code(500).send({ ok: false, message: 'Internal Error' })];
                     case 4: return [2 /*return*/];
                 }

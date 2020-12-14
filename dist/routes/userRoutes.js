@@ -56,6 +56,7 @@ var routes = function (fastify) { return __awaiter(void 0, void 0, void 0, funct
                 fastify
                     .addHook('preValidation', fastify.authenticate)
                     .get('/devices', userOptions_1.userGetDevicesOpts, userController.getEspsByUser)
+                    .get('/levelmatics', userController.getLevelmaticsByUser)
                     .get('/renew', function (req, reply) {
                     userController.generateNewToken(fastify, req, reply);
                 })

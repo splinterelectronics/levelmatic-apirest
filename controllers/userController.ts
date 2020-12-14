@@ -125,6 +125,17 @@ export default class UserController {
     }
   }
 
+  public async getLevelmaticsByUser(req: FastifyRequest, reply: FastifyReply) {
+    try {
+      const { uid } = <any>req.user;
+      const { devices: levelmatics } = await (<any>service.getById(uid));
+      return reply.send({ ok: true, levelmatics });
+    } catch (error) {
+      console.log(error);
+      return reply.code(500).send({ ok: false, code: 500 });
+    }
+  }
+
   public async exist(req: FastifyRequest, reply: FastifyReply) {
     try {
       const { email } = <any>req.body;

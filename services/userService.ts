@@ -25,6 +25,10 @@ export default class UserService {
     });
   }
 
+  public getById(id: ID) {
+    return User.findById(id);
+  }
+
   public addLevelmaticToUser(uid: ID, idLevelmatic: ID) {
     return User.findByIdAndUpdate(
       uid,

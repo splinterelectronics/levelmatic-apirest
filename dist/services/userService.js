@@ -28,6 +28,9 @@ var UserService = /** @class */ (function () {
             schema: levelmaticModel_1.default,
         });
     };
+    UserService.prototype.getById = function (id) {
+        return userModel_1.default.findById(id);
+    };
     UserService.prototype.addLevelmaticToUser = function (uid, idLevelmatic) {
         return userModel_1.default.findByIdAndUpdate(uid, { $addToSet: { devices: idLevelmatic } }, { new: true, runValidators: true }).populate({
             path: 'devices',
