@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.userUpdateOpts = exports.userGetDevicesOpts = exports.userAddDeviceOpts = exports.userLoginOpts = exports.userRegisterOpts = void 0;
+exports.userUpdateOpts = exports.userGetDevicesOpts = exports.userAddDeviceByIdOpts = exports.userAddDeviceOpts = exports.userLoginOpts = exports.userRegisterOpts = void 0;
 var userHooks_1 = require("../../utils/hooks/userHooks");
 var userOptionsSchema_1 = require("../../utils/schemas/userOptionsSchema");
 exports.userRegisterOpts = {
@@ -21,6 +21,13 @@ exports.userAddDeviceOpts = {
         response: userOptionsSchema_1.userAddDeviceResponseSchema,
     },
     preHandler: userHooks_1.userAddDevicePreHandler,
+};
+exports.userAddDeviceByIdOpts = {
+    schema: {
+        body: userOptionsSchema_1.userAddDeviceByIdBodySchema,
+        response: userOptionsSchema_1.userAddDeviceResponseSchema,
+    },
+    preHandler: userHooks_1.userAddDeviceByIdPreHandler,
 };
 exports.userGetDevicesOpts = {
     schema: {

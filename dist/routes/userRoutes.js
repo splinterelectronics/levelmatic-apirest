@@ -60,6 +60,7 @@ var routes = function (fastify) { return __awaiter(void 0, void 0, void 0, funct
                     userController.generateNewToken(fastify, req, reply);
                 })
                     .put('/', userOptions_1.userUpdateOpts, userController.update)
+                    .post('/device', userOptions_1.userAddDeviceByIdOpts, userController.addLevelmaticToUser)
                     .put('/device', userOptions_1.userAddDeviceOpts, userController.addLevelmaticToUser);
                 return [2 /*return*/];
             });

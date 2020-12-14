@@ -5,4 +5,5 @@ const userController = UserController.Instance;
 const levelmaticController = LevelmaticController.Instance;
 
 export const userAddDevicePreHandler = levelmaticController.existByCred;
+export const userAddDeviceByIdPreHandler = levelmaticController.existById;
 export const userRegisterPreHandler = userController.exist;

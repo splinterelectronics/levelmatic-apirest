@@ -6,10 +6,14 @@ import {
   userAddDeviceOpts,
   userGetDevicesOpts,
   userUpdateOpts,
+  userAddDeviceByIdOpts,
 } from './options/userOptions';
 import UserController from '../controllers/userController';
 import { IUser, IUserLogin } from '../interfaces/userInterfaces';
-import { ILevelmaticCred } from '../interfaces/levelmaticInterfaces';
+import {
+  ILevelmaticCred,
+  ILevelmaticID,
+} from '../interfaces/levelmaticInterfaces';
 
 const userController = UserController.Instance;
 
@@ -29,6 +33,11 @@ const routes = async (fastify: FastifyInstance) => {
           userController.generateNewToken(fastify, req, reply);
         })
         .put('/', userUpdateOpts, userController.update)
+        .post<{ Body: ILevelmaticID }>(
+          '/device',
+          userAddDeviceByIdOpts,
+          userController.addLevelmaticToUser
+        )
         .put<{ Body: ILevelmaticCred }>(
           '/device',
           userAddDeviceOpts,

@@ -16,4 +16,8 @@ export interface ILevelmaticCred {
   ipNet: string;
 }
 
+export interface ILevelmaticID {
+  idLevelmatic: string;
+}
+
 export interface ILevelmaticDoc extends Document, ILevelmatic {}

@@ -1,5 +1,6 @@
 import { RouteShorthandOptions } from 'fastify';
 import {
+  userAddDeviceByIdPreHandler,
   userAddDevicePreHandler,
   userRegisterPreHandler,
 } from '../../utils/hooks/userHooks';
@@ -10,6 +11,7 @@ import {
   userAddDeviceBodySchema,
   userAddDeviceResponseSchema,
   userUpdatePasswordBodySchema,
+  userAddDeviceByIdBodySchema,
 } from '../../utils/schemas/userOptionsSchema';
 
 export const userRegisterOpts: RouteShorthandOptions = {
@@ -33,6 +35,14 @@ export const userAddDeviceOpts: RouteShorthandOptions = {
     response: userAddDeviceResponseSchema,
   },
   preHandler: userAddDevicePreHandler,
+};
+
+export const userAddDeviceByIdOpts: RouteShorthandOptions = {
+  schema: {
+    body: userAddDeviceByIdBodySchema,
+    response: userAddDeviceResponseSchema,
+  },
+  preHandler: userAddDeviceByIdPreHandler,
 };
 
 export const userGetDevicesOpts: RouteShorthandOptions = {

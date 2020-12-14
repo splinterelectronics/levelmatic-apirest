@@ -17,6 +17,9 @@ var LevelmaticService = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    LevelmaticService.prototype.getLevelmaticById = function (id) {
+        return levelmaticModel_1.default.findById(id);
+    };
     LevelmaticService.prototype.getLevelmaticByCredentials = function (credentials) {
         return levelmaticModel_1.default.findOne(credentials);
     };

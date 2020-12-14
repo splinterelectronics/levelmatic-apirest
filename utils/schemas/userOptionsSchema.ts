@@ -86,6 +86,17 @@ export const userAddDeviceBodySchema = {
   maxProperties: 3,
 };
 
+export const userAddDeviceByIdBodySchema = {
+  title: 'User Add Device Body Schema',
+  type: 'object',
+  properties: {
+    idLevelmatic: { type: 'string', minLength: 24, maxLength: 24 },
+  },
+  required: ['idLevelmatic'],
+  minProperties: 1,
+  maxProperties: 1,
+};
+
 export const userAddDeviceResponseSchema = {
   200: {
     type: 'object',

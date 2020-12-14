@@ -54,9 +54,38 @@ var LevelmaticController = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    LevelmaticController.prototype.existById = function (req, reply) {
+        return __awaiter(this, void 0, void 0, function () {
+            var idLevelmatic, levelmaticExist, error_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        idLevelmatic = req.body.idLevelmatic;
+                        return [4 /*yield*/, service.getLevelmaticById(idLevelmatic)];
+                    case 1:
+                        levelmaticExist = _a.sent();
+                        console.log(levelmaticExist);
+                        if (!levelmaticExist) {
+                            return [2 /*return*/, reply.code(400).send({
+                                    ok: false,
+                                    message: 'No se pudo encontrar ningún levelmaticWiFi',
+                                })];
+                        }
+                        req.idLevelmatic = levelmaticExist._id;
+                        return [2 /*return*/, true];
+                    case 2:
+                        error_1 = _a.sent();
+                        console.log(error_1);
+                        return [2 /*return*/, reply.code(500).send({ ok: false, message: 'Internal Error' })];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
     LevelmaticController.prototype.existByCred = function (req, reply) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, ipNet, wifiPassword, wifiSSID, levelmaticExist, error_1;
+            var _a, ipNet, wifiPassword, wifiSSID, levelmaticExist, error_2;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -78,8 +107,8 @@ var LevelmaticController = /** @class */ (function () {
                         req.idLevelmatic = levelmaticExist._id;
                         return [2 /*return*/, true];
                     case 2:
-                        error_1 = _b.sent();
-                        console.log(error_1);
+                        error_2 = _b.sent();
+                        console.log(error_2);
                         return [2 /*return*/, reply.code(500).send({ ok: false, message: 'Internal Error' })];
                     case 3: return [2 /*return*/];
                 }

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.userAddDeviceResponseSchema = exports.userAddDeviceBodySchema = exports.userUpdatePasswordBodySchema = exports.userLoginBodySchema = exports.userLoginResponseSchema = exports.userRegisterBodySchema = void 0;
+exports.userAddDeviceResponseSchema = exports.userAddDeviceByIdBodySchema = exports.userAddDeviceBodySchema = exports.userUpdatePasswordBodySchema = exports.userLoginBodySchema = exports.userLoginResponseSchema = exports.userRegisterBodySchema = void 0;
 exports.userRegisterBodySchema = {
     title: 'User Register Body Schema',
     type: 'object',
@@ -83,6 +83,16 @@ exports.userAddDeviceBodySchema = {
     required: ['wifiSSID', 'wifiPassword', 'ipNet'],
     minProperties: 3,
     maxProperties: 3,
+};
+exports.userAddDeviceByIdBodySchema = {
+    title: 'User Add Device Body Schema',
+    type: 'object',
+    properties: {
+        idLevelmatic: { type: 'string', minLength: 24, maxLength: 24 },
+    },
+    required: ['idLevelmatic'],
+    minProperties: 1,
+    maxProperties: 1,
 };
 exports.userAddDeviceResponseSchema = {
     200: {
