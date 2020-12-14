@@ -16,13 +16,13 @@ const user = {
 const { email, password } = user;
 
 const levelmaticDevice = {
-  ipNet: '192.168.0.109',
+  ipNet: '192.168.0.103',
   wifiPassword: '26540mj522',
   wifiSSID: 'Palixmajo',
 };
 
 const espDataToUpdate = {
-  id: '5fb84027a13fefa4c8b9c12f',
+  id: '2cf4324eb1d02cf4324eb380',
   minLevel: Math.floor(Math.random() * 100),
   name: `Tanque ${Math.floor(Math.random() * 100)}`,
   notification: Math.random() < 0.5,
