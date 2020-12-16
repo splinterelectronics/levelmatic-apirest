@@ -4,24 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var dayjs_1 = __importDefault(require("dayjs"));
-// const getWeekDay = (day: number) => {
-//   switch (day) {
-//     case 0:
-//       return 'Domingo';
-//     case 1:
-//       return 'Lunes';
-//     case 2:
-//       return 'Martes';
-//     case 3:
-//       return 'Miércoles';
-//     case 4:
-//       return 'Jueves';
-//     case 5:
-//       return 'Viernes';
-//     default:
-//       return 'Sábado';
-//   }
-// };
 var getDateArrayByDDMM = function (dates) {
     return dates.map(function (_a) {
         var day = _a._id, month = _a.month, year = _a.year;

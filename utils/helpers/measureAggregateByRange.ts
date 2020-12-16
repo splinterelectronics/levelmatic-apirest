@@ -1,15 +1,25 @@
 export const getProjectObject = (range: string): Object => {
   if (range === '1m' || range === '7d') {
     return {
-      dateMeasureDay: { $dayOfMonth: '$dateMeasure' },
-      dateMeasureMonth: { $month: '$dateMeasure' },
-      dateMeasureYear: { $year: '$dateMeasure' },
+      dateMeasureDay: {
+        $dayOfMonth: { date: '$dateMeasure', timezone: 'America/Caracas' },
+      },
+      dateMeasureMonth: {
+        $month: { date: '$dateMeasure', timezone: 'America/Caracas' },
+      },
+      dateMeasureYear: {
+        $year: { date: '$dateMeasure', timezone: 'America/Caracas' },
+      },
       value: '$liquidLevel',
     };
   }
   return {
-    dateMeasureHour: { $hour: '$dateMeasure' },
-    dateMeasureDay: { $dayOfMonth: '$dateMeasure' },
+    dateMeasureHour: {
+      $hour: { date: '$dateMeasure', timezone: 'America/Caracas' },
+    },
+    dateMeasureDay: {
+      $dayOfMonth: { date: '$dateMeasure', timezone: 'America/Caracas' },
+    },
     value: '$liquidLevel',
   };
 };

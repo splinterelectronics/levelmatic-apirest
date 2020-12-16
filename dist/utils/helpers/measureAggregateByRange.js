@@ -1,22 +1,33 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getSortObject = exports.getGroupObject = exports.getProjectObject = void 0;
-exports.getProjectObject = function (range) {
+var getProjectObject = function (range) {
     if (range === '1m' || range === '7d') {
         return {
-            dateMeasureDay: { $dayOfMonth: '$dateMeasure' },
-            dateMeasureMonth: { $month: '$dateMeasure' },
-            dateMeasureYear: { $year: '$dateMeasure' },
+            dateMeasureDay: {
+                $dayOfMonth: { date: '$dateMeasure', timezone: 'America/Caracas' },
+            },
+            dateMeasureMonth: {
+                $month: { date: '$dateMeasure', timezone: 'America/Caracas' },
+            },
+            dateMeasureYear: {
+                $year: { date: '$dateMeasure', timezone: 'America/Caracas' },
+            },
             value: '$liquidLevel',
         };
     }
     return {
-        dateMeasureHour: { $hour: '$dateMeasure' },
-        dateMeasureDay: { $dayOfMonth: '$dateMeasure' },
+        dateMeasureHour: {
+            $hour: { date: '$dateMeasure', timezone: 'America/Caracas' },
+        },
+        dateMeasureDay: {
+            $dayOfMonth: { date: '$dateMeasure', timezone: 'America/Caracas' },
+        },
         value: '$liquidLevel',
     };
 };
-exports.getGroupObject = function (range) {
+exports.getProjectObject = getProjectObject;
+var getGroupObject = function (range) {
     if (range === '1m' || range === '7d') {
         return {
             _id: '$dateMeasureDay',
@@ -31,9 +42,11 @@ exports.getGroupObject = function (range) {
         avgValue: { $avg: '$value' },
     };
 };
-exports.getSortObject = function (range) {
+exports.getGroupObject = getGroupObject;
+var getSortObject = function (range) {
     if (range === '1m' || range === '7d') {
         return { year: 'asc', month: 'asc', _id: 'asc' };
     }
     return { day: 'asc', _id: 'asc' };
 };
+exports.getSortObject = getSortObject;
