@@ -41,7 +41,8 @@ var routes = function (fastify) { return __awaiter(void 0, void 0, void 0, funct
         fastify
             .register(require('./userRoutes'), { prefix: '/user' })
             .register(require('./measureRoutes'), { prefix: '/measure' })
-            .register(require('./espRoutes'), { prefix: '/esp' });
+            .register(require('./espRoutes'), { prefix: '/esp' })
+            .register(require('./emailRoutes'), { prefix: '/email' });
         return [2 /*return*/];
     });
 }); };

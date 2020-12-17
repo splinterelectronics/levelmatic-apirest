@@ -8,6 +8,8 @@ export interface IUser {
   email: string;
   password: string;
   username: string;
+  resetPasswordCode?: number;
+  resetPasswordExpires?: Date;
   devices?: ID[] | IESPDoc[];
 }
 export interface IUserDoc extends Document, IUser {}

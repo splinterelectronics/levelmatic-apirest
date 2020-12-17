@@ -27,6 +27,8 @@ var UserSchemaFields = {
         type: String,
         required: true,
     },
+    resetPasswordCode: Number,
+    resetPasswordExpires: Date,
     devices: [
         {
             type: mongoose_1.Schema.Types.ObjectId,

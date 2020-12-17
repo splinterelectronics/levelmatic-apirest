@@ -25,6 +25,9 @@ const routes = async (fastify: FastifyInstance) => {
     .post<{ Body: IUserLogin }>('/login', userLoginOpts, (req, reply) => {
       userController.login(fastify, req, reply);
     })
+    .get('/reset/:code', userController.resetPassword)
+    .post('/reset/:code', userController.setupNewPassword)
+    .post('/forgot', userController.forgotPassword)
     .register(async (fastify) => {
       fastify
         .addHook('preValidation', (<any>fastify).authenticate)

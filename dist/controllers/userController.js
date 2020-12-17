@@ -42,7 +42,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var bcryptjs_1 = __importDefault(require("bcryptjs"));
 var userService_1 = __importDefault(require("../services/userService"));
 var serverReply_1 = __importDefault(require("../utils/helpers/serverReply"));
+var config_1 = require("../utils/nodemailer/config");
 var getDevices_1 = __importDefault(require("../utils/helpers/getDevices"));
+var randomCode_1 = __importDefault(require("../utils/helpers/randomCode"));
 var service = userService_1.default.Instance;
 var UserController = /** @class */ (function () {
     function UserController() {
@@ -281,7 +283,122 @@ var UserController = /** @class */ (function () {
         var tokenJWT = fastify.jwt.sign(payload, {
             expiresIn: '30d',
         });
-        reply.send({ ok: true, tokenJWT: tokenJWT });
+        return reply.send({ ok: true, tokenJWT: tokenJWT });
+    };
+    UserController.prototype.forgotPassword = function (req, reply) {
+        return __awaiter(this, void 0, void 0, function () {
+            var email, user, userForgotPass, mailOpts, error_8;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 4, , 5]);
+                        email = req.body.email;
+                        return [4 /*yield*/, service.getByEmail(email)];
+                    case 1:
+                        user = _a.sent();
+                        if (!user) {
+                            return [2 /*return*/, reply.send({
+                                    ok: false,
+                                    message: 'No se encontró ningun usuario con este email',
+                                })];
+                        }
+                        user.resetPasswordCode = randomCode_1.default();
+                        user.resetPasswordExpires = Date.now() + 900000;
+                        return [4 /*yield*/, user.save()];
+                    case 2:
+                        userForgotPass = _a.sent();
+                        mailOpts = {
+                            to: userForgotPass.email,
+                            from: {
+                                name: 'Levelmatic',
+                                address: 'info@levelmatic.net',
+                            },
+                            subject: 'Restablecimiento de contraseña de Levelmatic',
+                            text: "Tu codigo de restablecimiento de contrase\u00F1a es: \n" + userForgotPass.resetPasswordCode + " \n\nSi tu no pediste este restablecimiento de contrase\u00F1a, solamente ignora este email.",
+                            html: "\n              <p>Tu codigo de restablecimiento de contrase\u00F1a es:</p>\n              <p style=\"font-size:36px;\">" + userForgotPass.resetPasswordCode + "</p>\n              <p>Si tu no pediste este restablecimiento de contrase\u00F1a, solamente ignora este email.</p>\n        ",
+                        };
+                        return [4 /*yield*/, config_1.sendMail(mailOpts)];
+                    case 3:
+                        _a.sent();
+                        return [2 /*return*/, reply.send({
+                                ok: true,
+                                message: 'Se ha enviado el codigo de recuperación de contraseña a su correo',
+                            })];
+                    case 4:
+                        error_8 = _a.sent();
+                        console.log(error_8);
+                        return [2 /*return*/, reply.code(500).send({ ok: false, message: 'Internal Error' })];
+                    case 5: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    UserController.prototype.resetPassword = function (req, reply) {
+        return __awaiter(this, void 0, void 0, function () {
+            var code, user, error_9;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        code = req.params.code;
+                        return [4 /*yield*/, service.getByPassCode(code)];
+                    case 1:
+                        user = _a.sent();
+                        if (!user) {
+                            return [2 /*return*/, reply
+                                    .code(401)
+                                    .send({ ok: false, message: 'El codigo expiró o es invalido' })];
+                        }
+                        reply.send({ ok: true, code: Number(code) });
+                        return [3 /*break*/, 3];
+                    case 2:
+                        error_9 = _a.sent();
+                        console.log(error_9);
+                        return [2 /*return*/, reply.code(500).send({ ok: false, message: 'Internal Error' })];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    UserController.prototype.setupNewPassword = function (req, reply) {
+        return __awaiter(this, void 0, void 0, function () {
+            var code, newPassword, user, salt, newPasswordEncrypted, error_10;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 3, , 4]);
+                        code = req.params.code;
+                        newPassword = req.body.newPassword;
+                        return [4 /*yield*/, service.getByPassCode(code)];
+                    case 1:
+                        user = _a.sent();
+                        if (!user) {
+                            return [2 /*return*/, reply.code(401).send({
+                                    ok: false,
+                                    message: 'El tiempo para cambiar la contraseña expiró',
+                                })];
+                        }
+                        salt = bcryptjs_1.default.genSaltSync(Number(process.env.SALT));
+                        newPasswordEncrypted = bcryptjs_1.default.hashSync(newPassword, salt);
+                        return [4 /*yield*/, service.update(user._id, {
+                                password: newPasswordEncrypted,
+                                resetPasswordCode: undefined,
+                                resetPasswordExpires: undefined,
+                            })];
+                    case 2:
+                        _a.sent();
+                        return [2 /*return*/, reply.send({
+                                ok: true,
+                                message: 'La contraseña ha sido modificada',
+                            })];
+                    case 3:
+                        error_10 = _a.sent();
+                        console.log(error_10);
+                        return [2 /*return*/, reply.code(500).send({ ok: false, message: 'Internal Error' })];
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
     };
     return UserController;
 }());

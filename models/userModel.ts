@@ -16,6 +16,8 @@ const UserSchemaFields: Record<keyof IUser, any> = {
     type: String,
     required: true,
   },
+  resetPasswordCode: Number,
+  resetPasswordExpires: Date,
   devices: [
     {
       type: Schema.Types.ObjectId,

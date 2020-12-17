@@ -51,6 +51,9 @@ var routes = function (fastify) { return __awaiter(void 0, void 0, void 0, funct
             .post('/login', userOptions_1.userLoginOpts, function (req, reply) {
             userController.login(fastify, req, reply);
         })
+            .get('/reset/:code', userController.resetPassword)
+            .post('/reset/:code', userController.setupNewPassword)
+            .post('/forgot', userController.forgotPassword)
             .register(function (fastify) { return __awaiter(void 0, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 fastify
