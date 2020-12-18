@@ -18,6 +18,16 @@ var UserSchemaFields = {
         required: false,
         default: '',
     },
+    verified: {
+        type: Boolean,
+        default: false,
+    },
+    verifiedCode: {
+        type: Number,
+    },
+    verifiedCodeExpires: {
+        type: Date,
+    },
     email: {
         type: String,
         required: true,

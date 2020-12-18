@@ -62,4 +62,11 @@ export default class UserService {
       resetPasswordExpires: { $gt: <any>Date.now() },
     });
   }
+
+  public getByVerifyCode(code: number) {
+    return User.findOne({
+      verifiedCode: code,
+      verifiedCodeExpires: { $gt: <any>Date.now() },
+    });
+  }
 }

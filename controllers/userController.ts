@@ -27,33 +27,47 @@ export default class UserController {
     return UserController.instance;
   }
 
-  public async create(
-    fastify: FastifyInstance,
-    req: UserRegisterRequest,
-    reply: FastifyReply
-  ) {
+  public async create(req: UserRegisterRequest, reply: FastifyReply) {
     try {
       const { username, password, email } = req.body;
       const salt: string = bcrypt.genSaltSync(Number(process.env.SALT));
       const emailLowerCase = email.toLowerCase();
       const user: IUser = {
         username,
+        verified: false,
+        verifiedCode: randomCode(),
+        verifiedCodeExpires: Date.now() + 600000,
         email: emailLowerCase,
         password: bcrypt.hashSync(password, salt),
       };
+
       const userDB = await service.create(user);
-      const payload = { uid: userDB._id, email: userDB.email };
-      const tokenJWT = fastify.jwt.sign(payload, {
-        expiresIn: '30d',
-      });
-      const { _id: uid } = userDB;
-      return reply.code(serverReply.success.code).send({
+
+      if (!userDB) {
+        return reply
+          .code(400)
+          .send({ ok: false, message: 'No se pudo crear el usuario' });
+      }
+
+      const mailOpts: Mail.Options = {
+        to: userDB.email,
+        from: {
+          name: 'Levelmatic',
+          address: 'info@levelmatic.net',
+        },
+        subject: 'Creacion de cuenta en Levelmatic',
+        text: `Tu codigo para la verificación de correo es: \n${userDB.verifiedCode}`,
+        html: `
+              <p>Tu codigo de verificación de correo es:</p>
+              <p style="font-size:36px;">${userDB.verifiedCode}</p>
+        `,
+      };
+
+      await sendMail(mailOpts);
+
+      return reply.code(200).send({
         ok: true,
-        tokenJWT,
-        devices: [],
-        uid,
-        username,
-        email: emailLowerCase,
+        message: 'El usuario ha sido creado exitosamente',
       });
     } catch (error) {
       console.log(error);
@@ -74,6 +88,13 @@ export default class UserController {
           .code(serverReply.badRequest.code)
           .send({ ok: false, message: 'credenciales incorrectas' });
       }
+
+      if (!user.verified) {
+        return reply
+          .code(401)
+          .send({ ok: false, message: 'El usuario no ha sido verificado' });
+      }
+
       const payload = { uid: user._id, email: user.email };
       const tokenJWT = fastify.jwt.sign(payload, {
         expiresIn: '30d',
@@ -282,6 +303,81 @@ export default class UserController {
         ok: true,
         message: 'La contraseña ha sido modificada',
       });
+    } catch (error) {
+      console.log(error);
+      return reply.code(500).send({ ok: false, message: 'Internal Error' });
+    }
+  }
+
+  public async verifyEmail(req: FastifyRequest, reply: FastifyReply) {
+    try {
+      const { email } = <IUser>req.body;
+      const userDB = await service.getByEmail(email);
+
+      if (!userDB) {
+        return reply.send({
+          ok: false,
+          message: 'El usuario con este email no existe',
+        });
+      }
+
+      if (userDB.verified) {
+        return reply.send({
+          ok: false,
+          message: 'Este usuario ya está verificado',
+        });
+      }
+
+      userDB.verifiedCode = randomCode();
+      userDB.verifiedCodeExpires = Date.now() + 600000;
+
+      const userToVerify = await (<any>service.update(userDB._id, userDB));
+
+      const mailOpts: Mail.Options = {
+        to: userToVerify.email,
+        from: {
+          name: 'Levelmatic',
+          address: 'info@levelmatic.net',
+        },
+        subject: 'Verificación de correo',
+        text: `Tu codigo de verificación de correo es: \n${userToVerify.verifiedCode}`,
+        html: `
+              <p>Tu codigo de verificación de correo es:</p>
+              <p style="font-size:36px;">${userToVerify.verifiedCode}</p>
+        `,
+      };
+
+      await sendMail(mailOpts);
+
+      return reply.send({
+        ok: true,
+        message: 'Se ha enviado el codigo de verificacion al correo',
+      });
+    } catch (error) {
+      console.log(error);
+      return reply.code(500).send({ ok: false, message: 'Internal Error' });
+    }
+  }
+
+  public async verifyEmailCode(req: FastifyRequest, reply: FastifyReply) {
+    try {
+      const { code } = <{ code: number }>req.params;
+      const user = await service.getByVerifyCode(code);
+
+      if (!user) {
+        return reply.send({
+          ok: false,
+          message: 'El codigo expiró o no es valido',
+        });
+      }
+
+      await service.update(user._id, {
+        verified: true,
+        verifiedCode: undefined,
+        verifiedCodeExpires: undefined,
+      });
+
+      reply.send({ ok: true, message: 'Usuario verificado' });
     } catch (error) {
       console.log(error);
       return reply.code(500).send({ ok: false, message: 'Internal Error' });

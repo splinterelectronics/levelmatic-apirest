@@ -59,42 +59,54 @@ var UserController = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    UserController.prototype.create = function (fastify, req, reply) {
+    UserController.prototype.create = function (req, reply) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, username, password, email, salt, emailLowerCase, user, userDB, payload, tokenJWT, uid, error_1;
+            var _a, username, password, email, salt, emailLowerCase, user, userDB, mailOpts, error_1;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        _b.trys.push([0, 2, , 3]);
+                        _b.trys.push([0, 3, , 4]);
                         _a = req.body, username = _a.username, password = _a.password, email = _a.email;
                         salt = bcryptjs_1.default.genSaltSync(Number(process.env.SALT));
                         emailLowerCase = email.toLowerCase();
                         user = {
                             username: username,
+                            verified: false,
+                            verifiedCode: randomCode_1.default(),
+                            verifiedCodeExpires: Date.now() + 600000,
                             email: emailLowerCase,
                             password: bcryptjs_1.default.hashSync(password, salt),
                         };
                         return [4 /*yield*/, service.create(user)];
                     case 1:
                         userDB = _b.sent();
-                        payload = { uid: userDB._id, email: userDB.email };
-                        tokenJWT = fastify.jwt.sign(payload, {
-                            expiresIn: '30d',
-                        });
-                        uid = userDB._id;
-                        return [2 /*return*/, reply.code(serverReply_1.default.success.code).send({
-                                ok: true,
-                                tokenJWT: tokenJWT,
-                                devices: [],
-                                uid: uid,
-                                username: username,
-                                email: emailLowerCase,
-                            })];
+                        if (!userDB) {
+                            return [2 /*return*/, reply
+                                    .code(400)
+                                    .send({ ok: false, message: 'No se pudo crear el usuario' })];
+                        }
+                        mailOpts = {
+                            to: userDB.email,
+                            from: {
+                                name: 'Levelmatic',
+                                address: 'info@levelmatic.net',
+                            },
+                            subject: 'Creacion de cuenta en Levelmatic',
+                            text: "Tu codigo para la verificaci\u00F3n de correo es: \n" + userDB.verifiedCode,
+                            html: "\n              <p>Tu codigo de verificaci\u00F3n de correo es:</p>\n              <p style=\"font-size:36px;\">" + userDB.verifiedCode + "</p>\n        ",
+                        };
+                        return [4 /*yield*/, config_1.sendMail(mailOpts)];
                     case 2:
+                        _b.sent();
+                        return [2 /*return*/, reply.code(200).send({
+                                ok: true,
+                                message: 'El usuario ha sido creado exitosamente',
+                            })];
+                    case 3:
                         error_1 = _b.sent();
                         console.log(error_1);
                         return [2 /*return*/, reply.code(500).send({ ok: false, code: 500 })];
-                    case 3: return [2 /*return*/];
+                    case 4: return [2 /*return*/];
                 }
             });
         });
@@ -114,6 +126,11 @@ var UserController = /** @class */ (function () {
                             return [2 /*return*/, reply
                                     .code(serverReply_1.default.badRequest.code)
                                     .send({ ok: false, message: 'credenciales incorrectas' })];
+                        }
+                        if (!user.verified) {
+                            return [2 /*return*/, reply
+                                    .code(401)
+                                    .send({ ok: false, message: 'El usuario no ha sido verificado' })];
                         }
                         payload = { uid: user._id, email: user.email };
                         tokenJWT = fastify.jwt.sign(payload, {
@@ -394,6 +411,95 @@ var UserController = /** @class */ (function () {
                     case 3:
                         error_10 = _a.sent();
                         console.log(error_10);
+                        return [2 /*return*/, reply.code(500).send({ ok: false, message: 'Internal Error' })];
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    UserController.prototype.verifyEmail = function (req, reply) {
+        return __awaiter(this, void 0, void 0, function () {
+            var email, userDB, userToVerify, mailOpts, error_11;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 4, , 5]);
+                        email = req.body.email;
+                        return [4 /*yield*/, service.getByEmail(email)];
+                    case 1:
+                        userDB = _a.sent();
+                        if (!userDB) {
+                            return [2 /*return*/, reply.send({
+                                    ok: false,
+                                    message: 'El usuario con este email no existe',
+                                })];
+                        }
+                        if (userDB.verified) {
+                            return [2 /*return*/, reply.send({
+                                    ok: false,
+                                    message: 'Este usuario ya está verificado',
+                                })];
+                        }
+                        userDB.verifiedCode = randomCode_1.default();
+                        userDB.verifiedCodeExpires = Date.now() + 600000;
+                        return [4 /*yield*/, service.update(userDB._id, userDB)];
+                    case 2:
+                        userToVerify = _a.sent();
+                        mailOpts = {
+                            to: userToVerify.email,
+                            from: {
+                                name: 'Levelmatic',
+                                address: 'info@levelmatic.net',
+                            },
+                            subject: 'Verificación de correo',
+                            text: "Tu codigo de verificaci\u00F3n de correo es: \n" + userToVerify.verifiedCode,
+                            html: "\n              <p>Tu codigo de verificaci\u00F3n de correo es:</p>\n              <p style=\"font-size:36px;\">" + userToVerify.verifiedCode + "</p>\n        ",
+                        };
+                        return [4 /*yield*/, config_1.sendMail(mailOpts)];
+                    case 3:
+                        _a.sent();
+                        return [2 /*return*/, reply.send({
+                                ok: true,
+                                message: 'Se ha enviado el codigo de verificacion al correo',
+                            })];
+                    case 4:
+                        error_11 = _a.sent();
+                        console.log(error_11);
+                        return [2 /*return*/, reply.code(500).send({ ok: false, message: 'Internal Error' })];
+                    case 5: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    UserController.prototype.verifyEmailCode = function (req, reply) {
+        return __awaiter(this, void 0, void 0, function () {
+            var code, user, error_12;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 3, , 4]);
+                        code = req.params.code;
+                        return [4 /*yield*/, service.getByVerifyCode(code)];
+                    case 1:
+                        user = _a.sent();
+                        if (!user) {
+                            return [2 /*return*/, reply.send({
+                                    ok: false,
+                                    message: 'El codigo expiró o no es valido',
+                                })];
+                        }
+                        return [4 /*yield*/, service.update(user._id, {
+                                verified: true,
+                                verifiedCode: undefined,
+                                verifiedCodeExpires: undefined,
+                            })];
+                    case 2:
+                        _a.sent();
+                        reply.send({ ok: true, message: 'Usuario verificado' });
+                        return [3 /*break*/, 4];
+                    case 3:
+                        error_12 = _a.sent();
+                        console.log(error_12);
                         return [2 /*return*/, reply.code(500).send({ ok: false, message: 'Internal Error' })];
                     case 4: return [2 /*return*/];
                 }

@@ -57,6 +57,12 @@ var UserService = /** @class */ (function () {
             resetPasswordExpires: { $gt: Date.now() },
         });
     };
+    UserService.prototype.getByVerifyCode = function (code) {
+        return userModel_1.default.findOne({
+            verifiedCode: code,
+            verifiedCodeExpires: { $gt: Date.now() },
+        });
+    };
     return UserService;
 }());
 exports.default = UserService;
