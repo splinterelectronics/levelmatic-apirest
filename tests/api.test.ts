@@ -15,7 +15,7 @@ const user = {
 
 const userNotVerified = {
   email: 'josevalera9801@gmail.com',
-  password: '59b588c6f5',
+  password: '123456',
 };
 
 const { email, password } = user;
