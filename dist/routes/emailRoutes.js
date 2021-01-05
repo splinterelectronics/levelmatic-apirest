@@ -39,26 +39,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var fastify_1 = __importDefault(require("fastify"));
-var config_1 = __importDefault(require("./utils/database/config"));
-var config_2 = require("./utils/nodemailer/config");
-require('./utils/env/config');
-config_1.default();
-config_2.emailConnection();
-var server = fastify_1.default();
-server.register(require('fastify-cors'));
-server.get('/', function (req, reply) { return __awaiter(void 0, void 0, void 0, function () {
+var emailController_1 = __importDefault(require("../controllers/emailController"));
+var emailController = emailController_1.default.Instance;
+module.exports = function (fastify) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
-        return [2 /*return*/, reply.send('<h1>Welcome to your simple server!!<h1>')];
+        fastify.get('/send', emailController.recoverPassword);
+        return [2 /*return*/];
     });
-}); });
-server.register(require('./utils/plugins/fastifyJwt'));
-server.register(require('./routes'));
-var port = process.env.PORT || 3000;
-server.listen(port, '0.0.0.0', function (err, address) {
-    if (err) {
-        console.log(err);
-    }
-    console.log('el puerto ess:', port);
-    console.log('Corriendo en address:', address);
-});
+}); };

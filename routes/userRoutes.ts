@@ -7,6 +7,10 @@ import {
   userGetDevicesOpts,
   userUpdateOpts,
   userAddDeviceByIdOpts,
+  userVerifyCodeOpts,
+  userVerifyEmailOpts,
+  userResetPassCodeOpts,
+  userResetSetNewPassOpts,
 } from './options/userOptions';
 import UserController from '../controllers/userController';
 import { IUser, IUserLogin } from '../interfaces/userInterfaces';
@@ -19,12 +23,19 @@ const userController = UserController.Instance;
 
 const routes = async (fastify: FastifyInstance) => {
   fastify
-    .post<{ Body: IUser }>('/', userRegisterOpts, (req, reply) => {
-      userController.create(fastify, req, reply);
-    })
+    .post<{ Body: IUser }>('/', userRegisterOpts, userController.create)
     .post<{ Body: IUserLogin }>('/login', userLoginOpts, (req, reply) => {
       userController.login(fastify, req, reply);
     })
+    .get('/verify/:code', userVerifyCodeOpts, userController.verifyEmailCode)
+    .post('/verify', userVerifyEmailOpts, userController.verifyEmail)
+    .get('/reset/:code', userResetPassCodeOpts, userController.resetPassword)
+    .post(
+      '/reset/:code',
+      userResetSetNewPassOpts,
+      userController.setupNewPassword
+    )
+    .post('/forgot', userVerifyEmailOpts, userController.forgotPassword)
     .register(async (fastify) => {
       fastify
         .addHook('preValidation', (<any>fastify).authenticate)

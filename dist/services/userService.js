@@ -51,6 +51,18 @@ var UserService = /** @class */ (function () {
             runValidators: true,
         });
     };
+    UserService.prototype.getByPassCode = function (code) {
+        return userModel_1.default.findOne({
+            resetPasswordCode: code,
+            resetPasswordExpires: { $gt: Date.now() },
+        });
+    };
+    UserService.prototype.getByVerifyCode = function (code) {
+        return userModel_1.default.findOne({
+            verifiedCode: code,
+            verifiedCodeExpires: { $gt: Date.now() },
+        });
+    };
     return UserService;
 }());
 exports.default = UserService;

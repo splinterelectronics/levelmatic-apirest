@@ -7,7 +7,7 @@ import {
 import {
   userRegisterBodySchema,
   userLoginBodySchema,
-  userLoginResponseSchema,
+  // userLoginResponseSchema,
   userAddDeviceBodySchema,
   userAddDeviceResponseSchema,
   userUpdatePasswordBodySchema,
@@ -17,7 +17,6 @@ import {
 export const userRegisterOpts: RouteShorthandOptions = {
   schema: {
     body: userRegisterBodySchema,
-    response: userLoginResponseSchema,
   },
   preHandler: userRegisterPreHandler,
 };
@@ -25,7 +24,6 @@ export const userRegisterOpts: RouteShorthandOptions = {
 export const userLoginOpts: RouteShorthandOptions = {
   schema: {
     body: userLoginBodySchema,
-    // response: userLoginResponseSchema,
   },
 };
 
@@ -54,5 +52,69 @@ export const userGetDevicesOpts: RouteShorthandOptions = {
 export const userUpdateOpts: RouteShorthandOptions = {
   schema: {
     body: userUpdatePasswordBodySchema,
+  },
+};
+
+export const userResetPassCodeOpts: RouteShorthandOptions = {
+  schema: {
+    params: {
+      type: 'object',
+      additionalProperties: false,
+      required: ['code'],
+      properties: {
+        code: { type: 'number', minimum: 100000, maximum: 999999 },
+      },
+    },
+  },
+};
+
+export const userResetSetNewPassOpts: RouteShorthandOptions = {
+  schema: {
+    body: {
+      type: 'object',
+      additionalProperties: false,
+      required: ['newPassword'],
+      maxProperties: 1,
+      minProperties: 1,
+      properties: {
+        newPassword: { type: 'string', minLength: 6 },
+      },
+    },
+    params: {
+      type: 'object',
+      additionalProperties: false,
+      required: ['code'],
+      properties: {
+        code: { type: 'number', minimum: 100000, maximum: 999999 },
+      },
+    },
+  },
+};
+
+export const userVerifyCodeOpts: RouteShorthandOptions = {
+  schema: {
+    params: {
+      type: 'object',
+      additionalProperties: false,
+      required: ['code'],
+      properties: {
+        code: { type: 'number', minimum: 100000, maximum: 999999 },
+      },
+    },
+  },
+};
+
+export const userVerifyEmailOpts: RouteShorthandOptions = {
+  schema: {
+    body: {
+      type: 'object',
+      properties: {
+        email: { type: 'string', format: 'email', minLength: 4 },
+      },
+      additionalProperties: false,
+      required: ['email'],
+      maxProperties: 1,
+      minProperties: 1,
+    },
   },
 };

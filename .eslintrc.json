@@ -19,6 +19,7 @@
     "class-methods-use-this": "off",
     "func-names": "off",
     "no-shadow": "off",
+    "consistent-return": "off",
     "prettier/prettier": ["error", { "endOfLine": "auto" }]
   }
 }

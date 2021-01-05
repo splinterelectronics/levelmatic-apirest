@@ -55,4 +55,18 @@ export default class UserService {
       runValidators: true,
     });
   }
+
+  public getByPassCode(code: number) {
+    return User.findOne({
+      resetPasswordCode: code,
+      resetPasswordExpires: { $gt: <any>Date.now() },
+    });
+  }
+
+  public getByVerifyCode(code: number) {
+    return User.findOne({
+      verifiedCode: code,
+      verifiedCodeExpires: { $gt: <any>Date.now() },
+    });
+  }
 }

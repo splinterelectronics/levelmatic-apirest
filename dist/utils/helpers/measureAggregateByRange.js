@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getSortObject = exports.getGroupObject = exports.getProjectObject = void 0;
-var getProjectObject = function (range) {
+exports.getProjectObject = function (range) {
     if (range === '1m' || range === '7d') {
         return {
             dateMeasureDay: {
@@ -26,8 +26,7 @@ var getProjectObject = function (range) {
         value: '$liquidLevel',
     };
 };
-exports.getProjectObject = getProjectObject;
-var getGroupObject = function (range) {
+exports.getGroupObject = function (range) {
     if (range === '1m' || range === '7d') {
         return {
             _id: '$dateMeasureDay',
@@ -42,11 +41,9 @@ var getGroupObject = function (range) {
         avgValue: { $avg: '$value' },
     };
 };
-exports.getGroupObject = getGroupObject;
-var getSortObject = function (range) {
+exports.getSortObject = function (range) {
     if (range === '1m' || range === '7d') {
         return { year: 'asc', month: 'asc', _id: 'asc' };
     }
     return { day: 'asc', _id: 'asc' };
 };
-exports.getSortObject = getSortObject;

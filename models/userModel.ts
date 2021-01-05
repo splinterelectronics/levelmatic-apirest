@@ -7,6 +7,16 @@ const UserSchemaFields: Record<keyof IUser, any> = {
     required: false,
     default: '',
   },
+  verified: {
+    type: Boolean,
+    default: false,
+  },
+  verifiedCode: {
+    type: Number,
+  },
+  verifiedCodeExpires: {
+    type: Date,
+  },
   email: {
     type: String,
     required: true,
@@ -16,6 +26,8 @@ const UserSchemaFields: Record<keyof IUser, any> = {
     type: String,
     required: true,
   },
+  resetPasswordCode: Number,
+  resetPasswordExpires: Date,
   devices: [
     {
       type: Schema.Types.ObjectId,

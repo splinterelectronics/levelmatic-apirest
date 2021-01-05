@@ -6,11 +6,16 @@ chai.use(chaiHttp);
 const url = 'http://localhost:3000';
 
 const user = {
-  email: 'testing400@gmail.com',
+  email: 'jomiva1650@gmail.com',
   password: '123456',
   uid: '',
   tokenJWT: '',
   devices: '',
+};
+
+const userNotVerified = {
+  email: 'josevalera9801@gmail.com',
+  password: '123456',
 };
 
 const { email, password } = user;
@@ -33,20 +38,18 @@ describe('Create user', () => {
     chai
       .request(url)
       .post('/user')
-      .send({ username: '', email, password })
+      .send({
+        username: '',
+        email: userNotVerified.email,
+        password: userNotVerified.password,
+      })
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.have.property('ok', true);
-        expect(res.body)
-          .to.have.property('devices')
-          .to.be.an('array')
-          .length(0);
-        expect(res.body).to.have.property('tokenJWT');
-        expect(res.body).to.have.property('uid');
-        expect(res.body).to.have.property('email', email);
-        user.uid = res.body.uid;
-        user.tokenJWT = res.body.tokenJWT;
-        user.devices = res.body.devices;
+        expect(res.body).to.have.property(
+          'message',
+          'El usuario ha sido creado exitosamente'
+        );
         done();
       });
   });
@@ -79,8 +82,11 @@ describe('Login user', () => {
         expect(res.body).to.have.property('ok', true);
         expect(res.body).to.have.property('devices').to.be.an('array');
         expect(res.body).to.have.property('tokenJWT');
-        expect(res.body).to.have.property('uid', user.uid);
+        expect(res.body).to.have.property('uid').to.be.an('string').length(24);
         expect(res.body).to.have.property('email', email);
+        user.uid = res.body.uid;
+        user.tokenJWT = res.body.tokenJWT;
+        user.devices = res.body.devices;
         done();
       });
   });
@@ -93,9 +99,29 @@ describe('Login user', () => {
       .end((err, res) => {
         expect(res).to.have.status(400);
         expect(res.body).to.have.property('ok', false);
-        expect(res.body)
-          .to.have.property('message')
-          .to.be.equal('credenciales incorrectas');
+        expect(res.body).to.have.property(
+          'message',
+          'credenciales incorrectas'
+        );
+        done();
+      });
+  });
+
+  it('should NOT log user (email not verified)', (done) => {
+    chai
+      .request(url)
+      .post('/user/login')
+      .send({
+        email: userNotVerified.email,
+        password: userNotVerified.password,
+      })
+      .end((err, res) => {
+        expect(res).to.have.status(401);
+        expect(res.body).to.have.property('ok', false);
+        expect(res.body).to.have.property(
+          'message',
+          'El usuario no ha sido verificado'
+        );
         done();
       });
   });

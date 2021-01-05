@@ -45,12 +45,15 @@ var userController = userController_1.default.Instance;
 var routes = function (fastify) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         fastify
-            .post('/', userOptions_1.userRegisterOpts, function (req, reply) {
-            userController.create(fastify, req, reply);
-        })
+            .post('/', userOptions_1.userRegisterOpts, userController.create)
             .post('/login', userOptions_1.userLoginOpts, function (req, reply) {
             userController.login(fastify, req, reply);
         })
+            .get('/verify/:code', userOptions_1.userVerifyCodeOpts, userController.verifyEmailCode)
+            .post('/verify', userOptions_1.userVerifyEmailOpts, userController.verifyEmail)
+            .get('/reset/:code', userOptions_1.userResetPassCodeOpts, userController.resetPassword)
+            .post('/reset/:code', userOptions_1.userResetSetNewPassOpts, userController.setupNewPassword)
+            .post('/forgot', userOptions_1.userVerifyEmailOpts, userController.forgotPassword)
             .register(function (fastify) { return __awaiter(void 0, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 fastify

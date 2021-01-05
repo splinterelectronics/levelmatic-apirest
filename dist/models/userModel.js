@@ -18,6 +18,16 @@ var UserSchemaFields = {
         required: false,
         default: '',
     },
+    verified: {
+        type: Boolean,
+        default: false,
+    },
+    verifiedCode: {
+        type: Number,
+    },
+    verifiedCodeExpires: {
+        type: Date,
+    },
     email: {
         type: String,
         required: true,
@@ -27,6 +37,8 @@ var UserSchemaFields = {
         type: String,
         required: true,
     },
+    resetPasswordCode: Number,
+    resetPasswordExpires: Date,
     devices: [
         {
             type: mongoose_1.Schema.Types.ObjectId,

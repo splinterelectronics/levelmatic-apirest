@@ -35,30 +35,53 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var fastify_1 = __importDefault(require("fastify"));
-var config_1 = __importDefault(require("./utils/database/config"));
-var config_2 = require("./utils/nodemailer/config");
-require('./utils/env/config');
-config_1.default();
-config_2.emailConnection();
-var server = fastify_1.default();
-server.register(require('fastify-cors'));
-server.get('/', function (req, reply) { return __awaiter(void 0, void 0, void 0, function () {
-    return __generator(this, function (_a) {
-        return [2 /*return*/, reply.send('<h1>Welcome to your simple server!!<h1>')];
-    });
-}); });
-server.register(require('./utils/plugins/fastifyJwt'));
-server.register(require('./routes'));
-var port = process.env.PORT || 3000;
-server.listen(port, '0.0.0.0', function (err, address) {
-    if (err) {
-        console.log(err);
+var config_1 = require("../utils/nodemailer/config");
+var EmailController = /** @class */ (function () {
+    function EmailController() {
     }
-    console.log('el puerto ess:', port);
-    console.log('Corriendo en address:', address);
-});
+    Object.defineProperty(EmailController, "Instance", {
+        get: function () {
+            if (!EmailController.instance) {
+                EmailController.instance = new EmailController();
+            }
+            return EmailController.instance;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    /**
+     * recoverPassword
+     */
+    EmailController.prototype.recoverPassword = function (req, reply) {
+        return __awaiter(this, void 0, void 0, function () {
+            var emailSent, error_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, config_1.sendMail({
+                                from: 'info@levelmatic.net',
+                                to: 'jomiva5016@gmail.com',
+                                subject: 'message title',
+                                text: 'probando mensajes',
+                            })];
+                    case 1:
+                        emailSent = _a.sent();
+                        if (emailSent) {
+                            console.log(emailSent);
+                            reply.send({ ok: true, message: 'email enviado' });
+                        }
+                        return [3 /*break*/, 3];
+                    case 2:
+                        error_1 = _a.sent();
+                        console.log(error_1);
+                        return [2 /*return*/, reply.code(500).send({ ok: false, code: 500 })];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    return EmailController;
+}());
+exports.default = EmailController;
